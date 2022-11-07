@@ -1,0 +1,43 @@
+body {
+    background-color: #0A0A2A;
+    font-family: 'OpenSans', sans-serif;
+    color: #E0E0E0;
+}
+
+h1,
+h2 {
+    font-family: 'Poppins', sans-serif;
+}
+
+a:link {
+    color: #666666;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #666666;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
+}
+
+div.container {
+    width: 60%;
+    margin: 0 auto;
+}
+
+div.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35em;
+}
+
+div.header img {
+    height: 8em;
+}
