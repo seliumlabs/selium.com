@@ -1,5 +1,5 @@
 body {
-    background-color: #0A0A2A;
+    background-color: #040d1e;
     font-family: 'OpenSans', sans-serif;
     color: #E0E0E0;
 }
@@ -36,8 +36,9 @@ div.header {
     justify-content: center;
     align-items: center;
     height: 35em;
+    padding-top: 3em;
 }
 
 div.header img {
-    height: 8em;
+    height: 40em;
 }
