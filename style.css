@@ -38,5 +38,6 @@ div.header {
 }
 
 div.header img {
-    height: 40em;
+    max-width: 40em;
+    height: auto;
 }
