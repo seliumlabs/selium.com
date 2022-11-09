@@ -35,8 +35,6 @@ div.header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 35em;
-    padding-top: 3em;
 }
 
 div.header img {
