@@ -1,3 +1,3 @@
-# selium.io
+# selium.com
 
 Public website

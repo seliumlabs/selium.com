@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://selium.io/sitemap.xml
+Sitemap: https://selium.com/sitemap.xml
