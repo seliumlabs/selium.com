@@ -1,22 +1,13 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
+<!DOCTYPE html>
+<html>
 
 <head>
-  <title>Selium - Blazing fast programmable data platform</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="description" content="Selium is a blazing fast programmable data platform, written in Rust." />
-  <meta name="keywords"
-    content="selium, data, stream, streaming, communication, rust, platform, realtime, real, time, microservice, application" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <link rel="shortcut icon" href="favicon.ico" />
+  <title>Selium</title>
+  <script src="./libraries/p5.min.js"></script>
+  <link rel="stylesheet" href="./style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="style.css" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
   <link href="https://cdn-images.mailchimp.com/embedcode/classic-071822.css" rel="stylesheet" type="text/css">
   <style type="text/css">
     #mc_embed_signup {
@@ -25,85 +16,53 @@
     }
 
   </style>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0K0K8BGVDP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-0K0K8BGVDP');
-  </script>
 </head>
 
-<body>
-  <div class="container">
-    <div class="header">
-      <img alt="Selium" src="logo.png">
-    </div>
-
-    <div class="content">
-      <p><strong>Selium is a blazing fast programmable data platform, written in Rust.</strong>
-        Use Selium to build realtime applications, transform data streams and create resilient
-        microservices.
-      </p>
-      <h3>Why Selium?</h3>
-      <ul>
-        <li><strong>Selium is composable</strong> - Our functional API library allows you
-          to declaratively compose data streams right from your code. Need 2 hours of
-          message retention capped at 100mb with at least once delivery guarantees? You
-          need but ask.</li>
-        <li><strong>Selium has no configuration</strong> - Really. None. Express all your
-          requirements at runtime using our composable API.</li>
-        <li><strong>Selium loves WebAssembly</strong> - Write WebAssembly modules and
-          colocate them on Selium's router network for dramatically faster TTFB.</li>
-        <li><strong>Selium doesn't do pipelines</strong> - Instead of boxing your data
-          in, Selium provides free access to any data, any time. Each client composes
-          their own curated streams, leveraging WebAssembly modules.</li>
-      </ul>
-      <h3>Want to hear more?</h3>
-      <p>
-        We're busy connecting bolts to nuts, which is obviously how you build great tech.
-        As we approach various milestones (like our upcoming alpha) we'd love to share
-        that with you.
-      </p>
-
-      <div id="mc_embed_signup">
-        <form
-          action="https://selium.us10.list-manage.com/subscribe/post?u=77507454fb016a5366cc232ad&amp;id=7101f4233a&amp;f_id=00d7c0e5f0"
-          method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
-          target="_blank" novalidate>
-          <div id="mc_embed_signup_noscroll">
-            <div class="mc-field-group">
-              <label for="mce-EMAIL">Email Address
-              </label>
-              <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" required>
-
-            </div>
-            <div id="mce-responses" class="clear foot">
-              <div class="response" id="mce-error-response" style="display:none"></div>
-              <div class="response" id="mce-success-response" style="display:none"></div>
-            </div>
-            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
-                name="b_77507454fb016a5366cc232ad_7101f4233a" tabindex="-1" value=""></div>
-            <div class="clear foot">
-              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
-            </div>
-          </div>
-        </form>
-      </div>
-      <script type='text/javascript' src='https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-      <script
-        type='text/javascript'>(function ($) { window.fnames = new Array(); window.ftypes = new Array(); fnames[0] = 'EMAIL'; ftypes[0] = 'email'; }(jQuery)); var $mcj = jQuery.noConflict(true);</script>
-
-      <p><em>Your email address will never be revealed to any third party, nor will it be
-          used for any other purpose than to update you about developments with Selium. We
-          promise to do this once a week or less.
-        </em></p>
+<body class="clear standard">
+  <div id="sparseHolder">
+    <div id="logoHolder"></div>
+    <div id="message">
+      <h1>Composable software communication</h1>
+      <p>Zero config messaging, streaming and RPC. Be productive in minutes, not days.</p>
+      <a href="#signup" class="button">Want to connect with us?</a>
     </div>
   </div>
+  <div id="signup">
+    <div id="mc_embed_signup">
+      <h1>Selium is just getting started</h1>
+      <p>Sign up for early access to our platform or get in touch to find out how we can help you. </p>
+      <form
+        action="https://selium.us10.list-manage.com/subscribe/post?u=77507454fb016a5366cc232ad&amp;id=7101f4233a&amp;f_id=00d7c0e5f0"
+        method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank"
+        novalidate>
+        <div id="mc_embed_signup_noscroll">
+          <div class="mc-field-group">
+            <label for="mce-EMAIL">Email Address
+            </label>
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" required>
+
+          </div>
+          <div id="mce-responses" class="clear foot">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+          </div>
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
+              name="b_77507454fb016a5366cc232ad_7101f4233a" tabindex="-1" value=""></div>
+          <div class="clear foot">
+            <input type="submit" value="Sign Up" name="subscribe" id="mc-embedded-subscribe" class="button">
+          </div>
+        </div>
+      </form>
+    </div>
+    <script type='text/javascript' src='https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+    <script
+      type='text/javascript'>(function ($) { window.fnames = new Array(); window.ftypes = new Array(); fnames[0] = 'EMAIL'; ftypes[0] = 'email'; }(jQuery)); var $mcj = jQuery.noConflict(true);</script>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="./common.js"></script>
+  <script src="./particle.js"></script>
+  <script src="./inverted.js"></script>
 </body>
 
 </html>
