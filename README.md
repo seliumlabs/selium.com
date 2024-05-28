@@ -15,7 +15,7 @@ Our fabric integrates compute, networking, storage and access controls into a co
 ## Features
 
 **Deploy, run and manage applications without leaving your IDE.**<br>
-Selium is the cloud built for developers. Our client library is composable and ergonomic, facilitating a wide variety of use cases. Never touch JSON again!
+Selium is built for developers. Our composable libraries are the sole method of configuring Selium, making the need for external configuration obsolete.
 
 **Build pipelines, not networks.**<br>
 Selium's network layer is built around data streaming and messaging concepts. All the flexibility of legacy networking with none of the hassle.
