@@ -14,7 +14,7 @@ Our fabric integrates compute, networking, storage and access controls into a co
 
 ## Features
 
-**Deploy, run and manage applications without leaving your IDE.**
+**Deploy, run and manage applications without leaving your IDE.**<br>
 Selium is the cloud built for developers. Our client library is composable and ergonomic, facilitating a wide variety of use cases. Never touch JSON again!
 
 **Build pipelines, not networks.**
