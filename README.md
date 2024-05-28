@@ -17,28 +17,28 @@ Our fabric integrates compute, networking, storage and access controls into a co
 **Deploy, run and manage applications without leaving your IDE.**<br>
 Selium is the cloud built for developers. Our client library is composable and ergonomic, facilitating a wide variety of use cases. Never touch JSON again!
 
-**Build pipelines, not networks.**
+**Build pipelines, not networks.**<br>
 Selium's network layer is built around data streaming and messaging concepts. All the flexibility of legacy networking with none of the hassle.
 
-**The convenience of monoliths with the scalability of microservices.**
+**The convenience of monoliths with the scalability of microservices.**<br>
 Call remote services like they're local libraries - no discovery, no abstractions, no REST!
 
-**Any protocol, any time.**
+**Any protocol, any time.**<br>
 With Selium you can connect your code to a wide variety of protocols simultaneously, making it simple to bridge between systems and technologies.
 
-**Clear path to service discovery.**
+**Clear path to service discovery.**<br>
 Selium is underpinned by a virtual directory tree that allows for trivial discovery and visualisation of assets and services at runtime. Any node in the directory can be assigned a path, including code modules, running instances, inputs and outputs, etc.
 
-**Idiomatic access controls.**
+**Idiomatic access controls.**<br>
 Use Unix-like filesystem permissions to control access to data streams, inhibit unauthorised execution of modules and prevent discovery of services.
 
-**Control your footprint with ease.**
+**Control your footprint with ease.**<br>
 Selium's directory tree can be used to summarise and throttle the disk, CPU, memory and bandwidth consumption of child resources. Control resources at any level.
 
-**Build your own hierarchy.**
+**Build your own hierarchy.**<br>
 Use the directory tree to build organisational, departmental, project, environment, team, application and/or other hierarchies. Each directory comes with its own access and resource controls that inherit from its parent.
 
-**Embed or deploy. It's your call.**
+**Embed or deploy. It's your call.**<br>
 Selium is a set of lightweight, open source libraries that can be embedded directly into your own application binaries, or deployed as a standalone cluster.
 
 ## Use cases (content ideas for day 2)
