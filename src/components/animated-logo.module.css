@@ -1,0 +1,28 @@
+#logoHolder div {
+	background-color: #020d1f;
+	margin: 0 auto;
+	position: relative;
+}
+
+#logoHolder div:after {
+	content: '';
+	position: absolute;
+	width: 102%;
+	height: 102%;
+	top: 0;
+	left: 0;
+	background-image: url('/selium-overlay.svg');
+	background-position: 50% 50%;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+#logoHolder div:before {
+	content: '';
+	position: absolute;
+	width: 102%;
+	height: 102%;
+	top: -2px;
+	left: -2px;
+	border: 10px #ffffff solid;
+}
