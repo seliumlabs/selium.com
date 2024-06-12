@@ -46,7 +46,10 @@ const sketch: Sketch = (p5: any) => {
 
 export const AnimatedLogo = () => {
 	return (
-		<div id={styles['logoHolder']}>
+		<div
+			className="text-white bg-white dark:bg-slate-800 dark:text-slate-800"
+			id={styles['logoHolder']}
+		>
 			<NextReactP5Wrapper sketch={sketch} />
 		</div>
 	);
