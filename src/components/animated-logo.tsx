@@ -1,5 +1,5 @@
 import React from 'react';
-import { type Sketch } from '@p5-wrapper/react';
+import { type Sketch, type P5CanvasInstance } from '@p5-wrapper/react';
 import { NextReactP5Wrapper } from '@p5-wrapper/next';
 import {
 	Settings,
@@ -11,7 +11,7 @@ import {
 import { Particle } from '@/lib/logo/particle';
 import styles from './animated-logo.module.css';
 
-const sketch: Sketch = (p5: any) => {
+const sketch: Sketch = (p5: P5CanvasInstance) => {
 	const settings: Settings = {
 		backgroundColour: '#ffffff',
 		fadeRate: 8,
