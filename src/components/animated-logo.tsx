@@ -13,7 +13,7 @@ import styles from './animated-logo.module.css';
 
 const sketch: Sketch = (p5: any) => {
 	const settings: Settings = {
-		backgroundColour: '#170322',
+		backgroundColour: '#ffffff',
 		fadeRate: 8,
 		hueInc: 0.025,
 		minMaxSpeed: 1.5,
@@ -25,7 +25,7 @@ const sketch: Sketch = (p5: any) => {
 		polarityThreshold: 0.5,
 		scl: 15,
 	};
-	const dimensions = calculateDimensions(settings, 1000, 500);
+	const dimensions = calculateDimensions(settings, 1024, 500);
 	const points = createPoints(p5, settings, dimensions);
 	const particles: Particle[] = [];
 	let counter = 0;
@@ -46,10 +46,7 @@ const sketch: Sketch = (p5: any) => {
 
 export const AnimatedLogo = () => {
 	return (
-		<div
-			className="text-white bg-white dark:bg-slate-800 dark:text-slate-800"
-			id={styles['logoHolder']}
-		>
+		<div id={styles['logoHolder']}>
 			<NextReactP5Wrapper sketch={sketch} />
 		</div>
 	);
