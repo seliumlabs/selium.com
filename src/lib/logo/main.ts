@@ -96,8 +96,7 @@ export function createPoints(
         let pull = 0;
         if (proximity <= poleStrength) {
           pull =
-            Math.sin(p5.map(proximity, 0, poleStrength, 0, p5.PI)) *
-            Math.PI;
+            Math.sin(p5.map(proximity, 0, poleStrength, 0, p5.PI)) * Math.PI;
         }
 
         const i = row * dimensions.cols + col;

@@ -107,12 +107,24 @@ const pinks: Palette = [
   [brightPink, 1],
 ];
 
-// const blues: Palette = [
-// 	[chryslerBlue, 0.5],
-// 	[indigo, 1],
-// ];
+const blues: Palette = [
+  [chryslerBlue, 0.5],
+  [indigo, 1],
+];
 
-const PALETTES: Palette[] = [multicolour, pinks];
+const light: Palette = [
+  [shockingPink, 0.58],
+  [violet, 0.2],
+  [indigo, 0.3],
+  [chryslerBlue, 0.4],
+  [orchid, 0.5],
+  [bittersweet, 0.6],
+  [brightPink, 0.75],
+  [bittersweet, 0.6],
+  [carnationPink, 1],
+];
+
+const PALETTES: Palette[] = [light];
 
 export function selectColour(noise: number, palette: Palette): Colour {
   let chosenAlpha = 'default';
@@ -135,14 +147,12 @@ export function selectColour(noise: number, palette: Palette): Colour {
 
   const maxSaturationShift = 10;
   let saturationShift = Math.round(
-    palette[i][0].value[1] +
-    shiftPolarity * maxSaturationShift * Math.random()
+    palette[i][0].value[1] + shiftPolarity * maxSaturationShift * Math.random()
   );
 
   const maxBrightnessShift = 10;
   let brightnessShift = Math.round(
-    palette[i][0].value[2] +
-    shiftPolarity * maxBrightnessShift * Math.random()
+    palette[i][0].value[2] + shiftPolarity * maxBrightnessShift * Math.random()
   );
 
   return {
