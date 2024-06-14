@@ -3,949 +3,938 @@
 @tailwind utilities;
 
 :root {
-	--foreground-rgb: 0, 0, 0;
-	--background-rgb: 214, 219, 220;
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 214, 219, 220;
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		--foreground-rgb: 255, 255, 255;
-		--background-rgb: 0, 0, 0;
-	}
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-rgb: 0, 0, 0;
+  }
 }
 
 body {
-	color: rgb(var(--foreground-rgb));
-	background: var(--background-rgb);
+  color: rgb(var(--foreground-rgb));
+  background: var(--background-rgb);
 }
 
 @layer utilities {
-	.text-balance {
-		text-wrap: balance;
-	}
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 /* for animations */
 /* TODO: Move this somewhere else. */
 
 :root {
-	--animate-duration: 1s;
+  --animate-duration: 1s;
 }
 
 .io-square-animation {
-	position: relative;
-	display: inline-block;
-	width: 540px;
-	height: 640px;
-	transform-origin: top left;
+  position: relative;
+  display: inline-block;
+  width: 540px;
+  height: 640px;
+  transform-origin: top left;
 }
 
 .animation--bottom,
 .animation--top {
-	position: absolute;
+  position: absolute;
 }
 
 .animation--bottom {
-	animation: recedeImage 8s linear infinite;
+  animation: recedeImage 8s linear infinite;
 }
 
 .animation--top {
-	animation: displayImage 8s linear infinite;
+  animation: displayImage 8s linear infinite;
 }
 
 @keyframes displayImage {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	45% {
-		opacity: 0%;
-	}
+  45% {
+    opacity: 0%;
+  }
 
-	50% {
-		opacity: 100%;
-	}
+  50% {
+    opacity: 100%;
+  }
 
-	95% {
-		opacity: 100%;
-	}
+  95% {
+    opacity: 100%;
+  }
 
-	100% {
-		opacity: 0%;
-	}
+  100% {
+    opacity: 0%;
+  }
 }
 
 @keyframes recedeImage {
-	0% {
-		opacity: 100%;
-	}
+  0% {
+    opacity: 100%;
+  }
 
-	45% {
-		opacity: 100%;
-	}
+  45% {
+    opacity: 100%;
+  }
 
-	50% {
-		opacity: 0%;
-	}
+  50% {
+    opacity: 0%;
+  }
 
-	95% {
-		opacity: 0%;
-	}
+  95% {
+    opacity: 0%;
+  }
 
-	100% {
-		opacity: 100%;
-	}
+  100% {
+    opacity: 100%;
+  }
 }
 
 .io-message,
 .message {
-	offset-path: path('M0 0 T 360 0');
-	offset-distance: 0%;
-	animation: message 2s linear infinite;
+  offset-path: path('M0 0 T 360 0');
+  offset-distance: 0%;
+  animation: message 2s linear infinite;
 }
 
 .io-messageIcon,
 .messageIcon {
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	background-color: #15d3ff;
-	position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #15d3ff;
+  position: absolute;
 }
 
 .errantMessage {
-	offset-path: path('M0,0 Q180 0 360 -40');
-	offset-distance: 0%;
-	animation: errantMessage 2s linear infinite;
+  offset-path: path('M0,0 Q180 0 360 -40');
+  offset-distance: 0%;
+  animation: errantMessage 2s linear infinite;
 }
 
 @keyframes errantMessage {
-	0% {
-		fill-opacity: 0;
-		offset-distance: 0%;
-	}
+  0% {
+    fill-opacity: 0;
+    offset-distance: 0%;
+  }
 
-	7.5% {
-		fill-opacity: 100%;
-		offset-distance: 0%;
-	}
+  7.5% {
+    fill-opacity: 100%;
+    offset-distance: 0%;
+  }
 
-	15% {
-		fill-opacity: 100%;
-	}
+  15% {
+    fill-opacity: 100%;
+  }
 
-	20% {
-		offset-distance: 100%;
-		fill-opacity: 0%;
-	}
+  20% {
+    offset-distance: 100%;
+    fill-opacity: 0%;
+  }
 
-	50% {
-		offset-distance: 100%;
-		fill-opacity: 0%;
-	}
+  50% {
+    offset-distance: 100%;
+    fill-opacity: 0%;
+  }
 
-	100% {
-		fill-opacity: 0%;
-		offset-distance: 100%;
-	}
+  100% {
+    fill-opacity: 0%;
+    offset-distance: 100%;
+  }
 }
 
 @keyframes message {
-	0% {
-		fill-opacity: 0;
-		offset-distance: 0%;
-	}
+  0% {
+    fill-opacity: 0;
+    offset-distance: 0%;
+  }
 
-	57.5% {
-		fill-opacity: 0%;
-		offset-distance: 0%;
-	}
+  57.5% {
+    fill-opacity: 0%;
+    offset-distance: 0%;
+  }
 
-	65% {
-		fill-opacity: 100%;
-	}
+  65% {
+    fill-opacity: 100%;
+  }
 
-	80% {
-		offset-distance: 100%;
-		fill: #ffffff;
-	}
+  80% {
+    offset-distance: 100%;
+    fill: #ffffff;
+  }
 
-	100% {
-		offset-distance: 100%;
-	}
+  100% {
+    offset-distance: 100%;
+  }
 }
 
 #retentReplay1 {
-	offset-path: path('M127.2,88.9l77.6,106.9 l64.7,89');
-	offset-distance: 0%;
-	animation: multi3A calc(3 * var(--animate-duration)) linear infinite;
-	left: -1px;
-	top: 21px;
+  offset-path: path('M127.2,88.9l77.6,106.9 l64.7,89');
+  offset-distance: 0%;
+  animation: multi3A calc(3 * var(--animate-duration)) linear infinite;
+  left: -1px;
+  top: 21px;
 }
 
 #pubSub1 {
-	offset-path: path('M127.2,88.9l77.6,106.9 l0.5,0.6');
-	offset-distance: 0%;
-	animation: multiA var(--animate-duration) linear infinite;
-	left: -1px;
-	top: 21px;
+  offset-path: path('M127.2,88.9l77.6,106.9 l0.5,0.6');
+  offset-distance: 0%;
+  animation: multiA var(--animate-duration) linear infinite;
+  left: -1px;
+  top: 21px;
 }
 
 #pubSub2 {
-	offset-path: path(
-		'M0,0c-27.4,20-45.3,52.4-45.3,89c0,60.8,49.2,110,110,110v-0.9v130.9'
-	);
-	offset-distance: 0%;
-	animation: multiB var(--animate-duration) linear infinite;
-	left: 205px;
-	top: 217px;
+  offset-path: path('M0,0c-27.4,20-45.3,52.4-45.3,89c0,60.8,49.2,110,110,110v-0.9v130.9'
+    );
+  offset-distance: 0%;
+  animation: multiB var(--animate-duration) linear infinite;
+  left: 205px;
+  top: 217px;
 }
 
 #pubSub3 {
-	offset-path: path(
-		'M0,0c18.2-13.2,40.5-21,64.7-21 c24.2,0,46.5,7.8,64.7,21l-0.3,0.4l76.7-105.5'
-	);
-	offset-distance: 0%;
-	animation: multiB var(--animate-duration) linear infinite;
-	left: 205px;
-	top: 217px;
+  offset-path: path('M0,0c18.2-13.2,40.5-21,64.7-21 c24.2,0,46.5,7.8,64.7,21l-0.3,0.4l76.7-105.5'
+    );
+  offset-distance: 0%;
+  animation: multiB var(--animate-duration) linear infinite;
+  left: 205px;
+  top: 217px;
 }
 
 .received1 {
-	left: 260px;
-	top: 536px;
-	background-color: #57e7ff;
-	animation: messageRecievedA var(--animate-duration) linear infinite;
-	animation-delay: calc(0.5 * var(--animate-duration));
+  left: 260px;
+  top: 536px;
+  background-color: #57e7ff;
+  animation: messageRecievedA var(--animate-duration) linear infinite;
+  animation-delay: calc(0.5 * var(--animate-duration));
 }
 
 #received1 {
-	left: 195px;
-	top: 207px;
-	background-color: #57e7ff;
-	animation: messageRecievedD calc(3 * var(--animate-duration)) linear
-		infinite;
+  left: 195px;
+  top: 207px;
+  background-color: #57e7ff;
+  animation: messageRecievedD calc(3 * var(--animate-duration)) linear infinite;
 }
 
 #received2 {
-	left: 401px;
-	top: 102px;
-	background-color: #57e7ff;
-	animation: messageRecievedA var(--animate-duration) linear infinite;
-	animation-delay: calc(0.5 * var(--animate-duration));
+  left: 401px;
+  top: 102px;
+  background-color: #57e7ff;
+  animation: messageRecievedA var(--animate-duration) linear infinite;
+  animation-delay: calc(0.5 * var(--animate-duration));
 }
 
 #received3 {
-	left: 401px;
-	top: 102px;
-	background-color: #57e7ff;
-	animation: messageRecievedA var(--animate-duration) linear infinite;
-	animation-delay: calc(0.5 * var(--animate-duration));
+  left: 401px;
+  top: 102px;
+  background-color: #57e7ff;
+  animation: messageRecievedA var(--animate-duration) linear infinite;
+  animation-delay: calc(0.5 * var(--animate-duration));
 }
 
 #received4 {
-	left: 260px;
-	top: 295.4px;
-	background-color: #57e7ff;
-	animation: messageRecievedB calc(3 * var(--animate-duration)) linear
-		infinite;
+  left: 260px;
+  top: 295.4px;
+  background-color: #57e7ff;
+  animation: messageRecievedB calc(3 * var(--animate-duration)) linear infinite;
 }
 
 #received5 {
-	left: 401.3px;
-	top: 102px;
-	background-color: #57e7ff;
-	animation: messageRecievedC calc(3 * var(--animate-duration)) linear
-		infinite;
+  left: 401.3px;
+  top: 102px;
+  background-color: #57e7ff;
+  animation: messageRecievedC calc(3 * var(--animate-duration)) linear infinite;
 }
 
 #send1 {
-	offset-path: path('m0,0L141.3,-193.4');
-	left: 270px;
-	top: 305.4px;
-	animation: send1 calc(3 * var(--animate-duration)) linear infinite;
+  offset-path: path('m0,0L141.3,-193.4');
+  left: 270px;
+  top: 305.4px;
+  animation: send1 calc(3 * var(--animate-duration)) linear infinite;
 }
 
 #sendA {
-	offset-path: path('m0,0L-141.3,193.4');
-	left: 411.3px;
-	top: 112px;
-	animation: sendA calc(3 * var(--animate-duration)) linear infinite;
+  offset-path: path('m0,0L-141.3,193.4');
+  left: 411.3px;
+  top: 112px;
+  animation: sendA calc(3 * var(--animate-duration)) linear infinite;
 }
 
 #sendReceive {
-	offset-path: path(
-		'M459.2,42.3L335.5,2.1l0,0c-14.3,44.1-55.8,76-104.6,76c-48.9,0-90.3-31.9-104.6-76l0.6-0.2L2,42.5'
-	);
-	left: 38px;
-	top: 338px;
-	background-color: #ff847b;
-	animation: sendReceive calc(var(--animate-duration)) linear infinite
-		alternate;
+  offset-path: path('M459.2,42.3L335.5,2.1l0,0c-14.3,44.1-55.8,76-104.6,76c-48.9,0-90.3-31.9-104.6-76l0.6-0.2L2,42.5'
+    );
+  left: 38px;
+  top: 338px;
+  background-color: #ff847b;
+  animation: sendReceive calc(var(--animate-duration)) linear infinite alternate;
 }
 
 #sendReceive1 {
-	left: 31px;
-	top: 370px;
-	background-color: #ff847b;
-	opacity: 0;
-	animation: sendReceive1A calc(2 * var(--animate-duration)) linear infinite;
+  left: 31px;
+  top: 370px;
+  background-color: #ff847b;
+  opacity: 0;
+  animation: sendReceive1A calc(2 * var(--animate-duration)) linear infinite;
 }
 
 #sendReceive2 {
-	left: 489px;
-	top: 370px;
-	background-color: #ff847b;
-	opacity: 0;
-	animation: sendReceive1A calc(2 * var(--animate-duration)) linear infinite;
-	animation-delay: var(--animate-duration);
+  left: 489px;
+  top: 370px;
+  background-color: #ff847b;
+  opacity: 0;
+  animation: sendReceive1A calc(2 * var(--animate-duration)) linear infinite;
+  animation-delay: var(--animate-duration);
 }
 
 @keyframes sendReceive1A {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	48% {
-		opacity: 0;
-	}
+  48% {
+    opacity: 0;
+  }
 
-	50% {
-		opacity: 0.5;
-		background-color: #ffffff;
-		transform: translate(0px, 0px) scale(1);
-	}
+  50% {
+    opacity: 0.5;
+    background-color: #ffffff;
+    transform: translate(0px, 0px) scale(1);
+  }
 
-	60% {
-		opacity: 0.25;
-		transform: translate(0px, 0px) scale(6);
-		background-color: #ff847b;
-	}
+  60% {
+    opacity: 0.25;
+    transform: translate(0px, 0px) scale(6);
+    background-color: #ff847b;
+  }
 
-	65% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-		background-color: #ff847b;
-	}
+  65% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+    background-color: #ff847b;
+  }
 
-	100% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-	}
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes sendReceive1A {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	48% {
-		opacity: 0;
-	}
+  48% {
+    opacity: 0;
+  }
 
-	50% {
-		opacity: 0.5;
-		background-color: #ffffff;
-		transform: translate(0px, 0px) scale(1);
-	}
+  50% {
+    opacity: 0.5;
+    background-color: #ffffff;
+    transform: translate(0px, 0px) scale(1);
+  }
 
-	60% {
-		opacity: 0.25;
-		transform: translate(0px, 0px) scale(6);
-		background-color: #ff847b;
-	}
+  60% {
+    opacity: 0.25;
+    transform: translate(0px, 0px) scale(6);
+    background-color: #ff847b;
+  }
 
-	65% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-		background-color: #ff847b;
-	}
+  65% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+    background-color: #ff847b;
+  }
 
-	100% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-	}
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 #destination {
-	border: 1px dotted #ffff00;
-	background-color: transparent;
-	left: 411.3px;
-	top: 112px;
-	margin-top: -20px;
-	margin-left: -20px;
-	width: 40px;
-	height: 40px;
+  border: 1px dotted #ffff00;
+  background-color: transparent;
+  left: 411.3px;
+  top: 112px;
+  margin-top: -20px;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
 }
 
 #center {
-	border: 1px dotted #ffff00;
-	background-color: transparent;
-	left: 270px;
-	top: 305.4px;
-	margin-top: -20px;
-	margin-left: -20px;
-	width: 40px;
-	height: 40px;
+  border: 1px dotted #ffff00;
+  background-color: transparent;
+  left: 270px;
+  top: 305.4px;
+  margin-top: -20px;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
 }
 
 @keyframes sendReceive {
-	0% {
-		offset-distance: 0%;
-	}
+  0% {
+    offset-distance: 0%;
+  }
 
-	100% {
-		offset-distance: 100%;
-	}
+  100% {
+    offset-distance: 100%;
+  }
 }
 
 @keyframes sendA {
-	0% {
-		offset-distance: 0%;
-		opacity: 0;
-	}
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
 
-	40% {
-		offset-distance: 0%;
-		opacity: 0;
-	}
+  40% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
 
-	60% {
-		offset-distance: 100%;
-		opacity: 1;
-	}
+  60% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
 
-	65% {
-		opacity: 0;
-	}
+  65% {
+    opacity: 0;
+  }
 
-	100% {
-		offset-distance: 100%;
-		opacity: 0;
-	}
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
 }
 
 @keyframes send1 {
-	0% {
-		offset-distance: 0%;
-		opacity: 0;
-	}
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
 
-	60% {
-		offset-distance: 0%;
-		opacity: 0;
-	}
+  60% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
 
-	65% {
-		opacity: 1;
-	}
+  65% {
+    opacity: 1;
+  }
 
-	75% {
-		opacity: 1;
-		offset-distance: 100%;
-	}
+  75% {
+    opacity: 1;
+    offset-distance: 100%;
+  }
 
-	100% {
-		opacity: 0;
-		offset-distance: 100%;
-	}
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+  }
 }
 
 @keyframes messageRecievedA {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	25% {
-		opacity: 0.5;
-		background-color: #ffffff;
-	}
+  25% {
+    opacity: 0.5;
+    background-color: #ffffff;
+  }
 
-	50% {
-		opacity: 0.25;
-		transform: translate(0px, 0px) scale(6);
-		background-color: #00ccff;
-	}
+  50% {
+    opacity: 0.25;
+    transform: translate(0px, 0px) scale(6);
+    background-color: #00ccff;
+  }
 
-	60% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-		background-color: #ffffff;
-	}
+  60% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+    background-color: #ffffff;
+  }
 
-	100% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-	}
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes messageRecievedB {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	16% {
-		opacity: 0;
-	}
+  16% {
+    opacity: 0;
+  }
 
-	16.7% {
-		opacity: 0.5;
-		background-color: #ffffff;
-	}
+  16.7% {
+    opacity: 0.5;
+    background-color: #ffffff;
+  }
 
-	33% {
-		opacity: 0.25;
-		transform: translate(0px, 0px) scale(6);
-		background-color: #00ccff;
-	}
+  33% {
+    opacity: 0.25;
+    transform: translate(0px, 0px) scale(6);
+    background-color: #00ccff;
+  }
 
-	35% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-		background-color: #ffffff;
-	}
+  35% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+    background-color: #ffffff;
+  }
 
-	100% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-	}
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes messageRecievedC {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	72.5% {
-		opacity: 0;
-	}
+  72.5% {
+    opacity: 0;
+  }
 
-	75% {
-		opacity: 0.5;
-		background-color: #ffffff;
-		transform: translate(0px, 0px) scale(1);
-	}
+  75% {
+    opacity: 0.5;
+    background-color: #ffffff;
+    transform: translate(0px, 0px) scale(1);
+  }
 
-	90% {
-		opacity: 0.25;
-		transform: translate(0px, 0px) scale(6);
-		background-color: #00ccff;
-	}
+  90% {
+    opacity: 0.25;
+    transform: translate(0px, 0px) scale(6);
+    background-color: #00ccff;
+  }
 
-	93.33% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-		background-color: #ffffff;
-	}
+  93.33% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+    background-color: #ffffff;
+  }
 
-	100% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-	}
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes messageRecievedD {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	8% {
-		opacity: 0;
-	}
+  8% {
+    opacity: 0;
+  }
 
-	8.33% {
-		opacity: 0.5;
-		background-color: #ffffff;
-	}
+  8.33% {
+    opacity: 0.5;
+    background-color: #ffffff;
+  }
 
-	20% {
-		opacity: 0.25;
-		transform: translate(0px, 0px) scale(6);
-		background-color: #00ccff;
-	}
+  20% {
+    opacity: 0.25;
+    transform: translate(0px, 0px) scale(6);
+    background-color: #00ccff;
+  }
 
-	25% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-		background-color: #ffffff;
-	}
+  25% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+    background-color: #ffffff;
+  }
 
-	100% {
-		opacity: 0;
-		transform: translate(0px, 0px) scale(1);
-	}
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes multiA {
-	0% {
-		offset-distance: 0%;
-		opacity: 1;
-	}
+  0% {
+    offset-distance: 0%;
+    opacity: 1;
+  }
 
-	25% {
-		offset-distance: 100%;
-		opacity: 1;
-	}
+  25% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
 
-	26% {
-		opacity: 0;
-	}
+  26% {
+    opacity: 0;
+  }
 
-	100% {
-		opacity: 0;
-		offset-distance: 100%;
-	}
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+  }
 }
 
 @keyframes multi3A {
-	0% {
-		offset-distance: 0%;
-		opacity: 1;
-	}
+  0% {
+    offset-distance: 0%;
+    opacity: 1;
+  }
 
-	16.67% {
-		offset-distance: 100%;
-		opacity: 1;
-	}
+  16.67% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
 
-	17% {
-		opacity: 0;
-	}
+  17% {
+    opacity: 0;
+  }
 
-	100% {
-		opacity: 0;
-		offset-distance: 100%;
-	}
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+  }
 }
 
 @keyframes multiB {
-	0% {
-		offset-distance: 0%;
-		opacity: 0;
-	}
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
 
-	25% {
-		offset-distance: 0%;
-		opacity: 1;
-	}
+  25% {
+    offset-distance: 0%;
+    opacity: 1;
+  }
 
-	75% {
-		opacity: 1;
-		offset-distance: 100%;
-	}
+  75% {
+    opacity: 1;
+    offset-distance: 100%;
+  }
 
-	100% {
-		opacity: 1;
-		offset-distance: 100%;
-	}
+  100% {
+    opacity: 1;
+    offset-distance: 100%;
+  }
 }
 
 #growLine {
-	stroke-dasharray: 125;
-	animation: growRoute 3s linear infinite;
+  stroke-dasharray: 125;
+  animation: growRoute 3s linear infinite;
 }
 
 @keyframes growRoute {
-	0% {
-		stroke-dashoffset: 0;
-	}
+  0% {
+    stroke-dashoffset: 0;
+  }
 
-	40% {
-		stroke-dashoffset: 0;
-	}
+  40% {
+    stroke-dashoffset: 0;
+  }
 
-	50% {
-		stroke-dashoffset: -125;
-	}
+  50% {
+    stroke-dashoffset: -125;
+  }
 
-	100% {
-		stroke-dashoffset: -125;
-	}
+  100% {
+    stroke-dashoffset: -125;
+  }
 }
 
 .returnMessage {
-	offset-path: path('M0 0 T 360 0');
-	offset-distance: 0%;
-	fill: #15d3ff;
-	animation: returnMessage 1s linear infinite alternate;
+  offset-path: path('M0 0 T 360 0');
+  offset-distance: 0%;
+  fill: #15d3ff;
+  animation: returnMessage 1s linear infinite alternate;
 }
 
 @keyframes returnMessage {
-	0% {
-		offset-distance: 0%;
-	}
+  0% {
+    offset-distance: 0%;
+  }
 
-	15% {
-		offset-distance: 0%;
-	}
+  15% {
+    offset-distance: 0%;
+  }
 
-	40% {
-		offset-distance: 100%;
-	}
+  40% {
+    offset-distance: 100%;
+  }
 
-	100% {
-		offset-distance: 100%;
-	}
+  100% {
+    offset-distance: 100%;
+  }
 }
 
 .singleMessage {
-	offset-path: path('M0 0 T 360 0');
-	offset-distance: 0%;
-	fill: #15d3ff;
-	animation: singleMessage 2s linear infinite;
+  offset-path: path('M0 0 T 360 0');
+  offset-distance: 0%;
+  fill: #15d3ff;
+  animation: singleMessage 2s linear infinite;
 }
 
 @keyframes singleMessage {
-	0% {
-		offset-distance: 0%;
-	}
+  0% {
+    offset-distance: 0%;
+  }
 
-	7.5% {
-		offset-distance: 0%;
-	}
+  7.5% {
+    offset-distance: 0%;
+  }
 
-	20% {
-		offset-distance: 100%;
-	}
+  20% {
+    offset-distance: 100%;
+  }
 
-	100% {
-		offset-distance: 100%;
-	}
+  100% {
+    offset-distance: 100%;
+  }
 }
 
 .publishMessage {
-	offset-path: path('M0 0 T -360 0');
-	offset-distance: 0%;
-	fill: #15d3ff;
-	animation: publishMessage 2s linear infinite;
+  offset-path: path('M0 0 T -360 0');
+  offset-distance: 0%;
+  fill: #15d3ff;
+  animation: publishMessage 2s linear infinite;
 }
 
 @keyframes singleMessage {
-	0% {
-		offset-distance: 0%;
-	}
+  0% {
+    offset-distance: 0%;
+  }
 
-	7.5% {
-		offset-distance: 0%;
-	}
+  7.5% {
+    offset-distance: 0%;
+  }
 
-	20% {
-		offset-distance: 100%;
-	}
+  20% {
+    offset-distance: 100%;
+  }
 
-	100% {
-		offset-distance: 100%;
-	}
+  100% {
+    offset-distance: 100%;
+  }
 }
 
 .returnMessageRoute {
-	stroke: #0092ff;
-	fill: #1f062c;
+  stroke: #0092ff;
+  fill: #1f062c;
 }
 
 .messageRecieved {
-	animation:
-		messageRecieved 1s ease-out infinite,
-		routeFill 2s linear infinite;
-	fill-opacity: 0;
-	animation-delay: 0.4s;
+  animation:
+    messageRecieved 1s ease-out infinite,
+    routeFill 2s linear infinite;
+  fill-opacity: 0;
+  animation-delay: 0.4s;
 }
 
 .messageRecievedReturn {
-	animation: messageRecieved 2s ease-out infinite;
-	fill-opacity: 0;
-	animation-delay: 0.2s;
+  animation: messageRecieved 2s ease-out infinite;
+  fill-opacity: 0;
+  animation-delay: 0.2s;
 }
 
 .messageRecievedTerminal {
-	animation: messageRecievedTerminal 2s ease-out infinite;
-	fill-opacity: 0;
-	animation-delay: 1.6s;
+  animation: messageRecievedTerminal 2s ease-out infinite;
+  fill-opacity: 0;
+  animation-delay: 1.6s;
 }
 
 @keyframes messageRecieved {
-	0% {
-		fill-opacity: 0;
-	}
+  0% {
+    fill-opacity: 0;
+  }
 
-	25% {
-		fill-opacity: 0.25;
-	}
+  25% {
+    fill-opacity: 0.25;
+  }
 
-	40% {
-		fill-opacity: 0;
-		transform: translate(-2400px, -800px) scale(6);
-	}
+  40% {
+    fill-opacity: 0;
+    transform: translate(-2400px, -800px) scale(6);
+  }
 
-	50% {
-		fill-opacity: 0;
-	}
+  50% {
+    fill-opacity: 0;
+  }
 
-	100% {
-		fill-opacity: 0;
-	}
+  100% {
+    fill-opacity: 0;
+  }
 }
 
 @keyframes messageRecievedTerminal {
-	0% {
-		fill-opacity: 0;
-	}
+  0% {
+    fill-opacity: 0;
+  }
 
-	25% {
-		fill-opacity: 0.25;
-	}
+  25% {
+    fill-opacity: 0.25;
+  }
 
-	40% {
-		fill-opacity: 0;
-		transform: translate(-600px, -800px) scale(6);
-	}
+  40% {
+    fill-opacity: 0;
+    transform: translate(-600px, -800px) scale(6);
+  }
 
-	50% {
-		fill-opacity: 0;
-	}
+  50% {
+    fill-opacity: 0;
+  }
 
-	100% {
-		fill-opacity: 0;
-	}
+  100% {
+    fill-opacity: 0;
+  }
 }
 
 .client {
-	animation: client 2s linear infinite;
-	animation-delay: 0.9s;
+  animation: client 2s linear infinite;
+  animation-delay: 0.9s;
 }
 
 @keyframes client {
-	0% {
-	}
+  0% {}
 
-	25% {
-		stroke: #ffffff;
-	}
+  25% {
+    stroke: #ffffff;
+  }
 
-	50% {
-	}
+  50% {}
 
-	60% {
-	}
+  60% {}
 
-	100% {
-	}
+  100% {}
 }
 
 .route {
-	animation: route 2s ease-out infinite;
+  animation: route 2s ease-out infinite;
 }
 
 @keyframes route {
-	0% {
-		stroke: #00dfe0;
-	}
+  0% {
+    stroke: #00dfe0;
+  }
 
-	45% {
-		stroke: #00dfe0;
-	}
+  45% {
+    stroke: #00dfe0;
+  }
 
-	55% {
-		stroke: #f96e53;
-	}
+  55% {
+    stroke: #f96e53;
+  }
 
-	100% {
-		stroke: #f96e53;
-	}
+  100% {
+    stroke: #f96e53;
+  }
 }
 
 @keyframes routeFill {
-	0% {
-		fill: #9cffde;
-	}
+  0% {
+    fill: #9cffde;
+  }
 
-	40% {
-		fill: #9cffde;
-	}
+  40% {
+    fill: #9cffde;
+  }
 
-	45% {
-		fill: #ffffff;
-	}
+  45% {
+    fill: #ffffff;
+  }
 
-	55% {
-		fill: #ffab5f;
-	}
+  55% {
+    fill: #ffab5f;
+  }
 
-	95% {
-		fill: #ffab5f;
-	}
+  95% {
+    fill: #ffab5f;
+  }
 
-	100% {
-		fill: #ffffff;
-	}
+  100% {
+    fill: #ffffff;
+  }
 }
 
 .subscribe {
-	animation: toggleOn 2s ease-out infinite;
+  animation: toggleOn 2s ease-out infinite;
 }
 
 .replay {
-	animation: toggleOff 2s ease-out infinite;
+  animation: toggleOff 2s ease-out infinite;
 }
 
 @keyframes toggleOff {
-	0% {
-		fill-opacity: 25%;
-	}
+  0% {
+    fill-opacity: 25%;
+  }
 
-	45% {
-		fill-opacity: 25%;
-	}
+  45% {
+    fill-opacity: 25%;
+  }
 
-	55% {
-		fill-opacity: 100%;
-	}
+  55% {
+    fill-opacity: 100%;
+  }
 
-	100% {
-		fill-opacity: 100%;
-	}
+  100% {
+    fill-opacity: 100%;
+  }
 }
 
 @keyframes toggleOn {
-	0% {
-		fill-opacity: 100%;
-	}
+  0% {
+    fill-opacity: 100%;
+  }
 
-	45% {
-		fill-opacity: 100%;
-	}
+  45% {
+    fill-opacity: 100%;
+  }
 
-	55% {
-		fill-opacity: 25%;
-	}
+  55% {
+    fill-opacity: 25%;
+  }
 
-	100% {
-		fill-opacity: 25%;
-	}
+  100% {
+    fill-opacity: 25%;
+  }
 }
 
 @media only screen and (max-width: 767px) {
-	.io-square-animation {
-		transform: scale(0.85);
-		width: 459px;
-		height: 544px;
-	}
+  .io-square-animation {
+    transform: scale(0.85);
+    width: 459px;
+    height: 544px;
+  }
 
-	.svgholder {
-		width: 459px;
-		height: 544px;
-	}
+  .svgholder {
+    width: 459px;
+    height: 544px;
+  }
 }
 
 @media only screen and (max-width: 478px) {
-	.io-square-animation {
-		transform: scale(0.6);
-		width: 324px;
-		height: 384px;
-	}
+  .io-square-animation {
+    transform: scale(0.6);
+    width: 324px;
+    height: 384px;
+  }
 
-	.svgholder {
-		width: 324px;
-		height: 384px;
-	}
+  .svgholder {
+    width: 324px;
+    height: 384px;
+  }
 }
