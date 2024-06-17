@@ -27,19 +27,46 @@ export const SiteHeader = () => {
 interface NavItem {
   label: string;
   href: string;
+  dimage?: string;
+  limage?: string;
 }
 
 const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'News', href: '/news/' },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/seliumlabs/selium',
+    dimage: 'github-dark.svg',
+    limage: 'github-light.svg',
+  },
 ];
 
 const SiteHeaderNav = () => {
   return (
     <nav className="hidden lg:flex gap-6">
-      {navItems.map(({ label, href }) => (
+      {navItems.map(({ label, href, dimage, limage }) => (
         <Link href={href} className="text-lg font-semibold" key={href}>
-          {label}
+          {dimage ? (
+            <span>
+              <Image
+                src={`/images/${dimage}`}
+                alt={label}
+                className="hidden dark:block"
+                width="30"
+                height="30"
+              />
+              <Image
+                src={`/images/${limage}`}
+                alt={label}
+                className="block dark:hidden"
+                width="30"
+                height="30"
+              />
+            </span>
+          ) : (
+            label
+          )}
         </Link>
       ))}
     </nav>
