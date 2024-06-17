@@ -10,8 +10,10 @@ const withMDX = nextMDX({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    unoptimized: true,
+  },
   output: 'export',
-  'images.unoptimized': true,
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
 };
 
