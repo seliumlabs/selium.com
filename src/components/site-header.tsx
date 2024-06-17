@@ -30,11 +30,8 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  // { label: 'I/O', href: '/io' },
-  // { label: 'Cloud', href: '/cloud' },
-  // { label: 'Docs', href: '/docs' },
-  // { label: 'Blog', href: '/blog' },
-  // { label: 'About', href: '/about' },
+  { label: 'Home', href: '/' },
+  { label: 'News', href: '/news/' },
 ];
 
 const SiteHeaderNav = () => {

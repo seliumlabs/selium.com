@@ -1,0 +1,71 @@
+---
+title: Hello, Selium!
+author: Pete Hayes
+role: founder & CEO
+date: 2024-02-11
+---
+
+Selium is a composable data streaming platform, written in Rust. If you're thinking that this all sounds pretty familiar, it is! Selium isn't pretending to have the first word on data and how to move it around, though hopefully this article will demonstrate some method to our madness.
+
+## What else is there to say?
+
+I don't like configuration. More accurately, I hate it. Especially the kind of “powerful” config that allows you to do things like overloading YAML with conditional statements, loops, variables and such. It's a pain to read, it's worse to write and it's unbearable to maintain. This opinion made me an awful DevOps engineer, but inspired me to start building Selium. Since then we've grown to a team of 3, but we are all in screaming agreement about one thing - everything in Selium must be configurable in code at runtime.
+
+So what does Selium add to the conversation? In a word - simplicity. We aren't striving to do anything revolutionary with our platform, because the industry is already quite feature complete. Instead we're focussing on making Selium the most developer friendly streaming platform out there. We are still building towards feature parity with the _Kafkas_ and _RedPandas_ of the world, but with an unwavering focus on developer ergonomics.
+
+### For example:
+
+* **We don't have any configuration files.** We will probably introduce support for JSON/YAML to appease our operator friends, though they will never be mandatory, nor necessary.
+* **We don't have any CLI for configuring Selium.** We don't need one. Selium's server configures itself when your code runs, so there's nothing to pre-configure. You're free to declare new topics/pipes with liberal abandon!
+* **We are functional and declarative.** Coding in Selium should be a pleasant and predictable experience.
+* **We are totally futures-compatible.** Producers are Sinks and consumers are Streams. Familiar already, huh?
+* **We built our I/O around QUIC.** [QUIC](https://quicwg.org) is a really awesome reliable UDP protocol and allows us to do fun things like stream multiplexing and implicit mutual TLS.
+
+## What does it look like?
+
+Here's a complete example publisher:
+
+```rust
+use futures::SinkExt;
+use selium::{prelude::*, std::codecs::StringCodec};
+
+#[tokio::main]
+async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Connect to Selium
+    let connection = selium::custom()
+        .endpoint("127.0.0.1:7001")
+        .with_certificate_authority("certs/ca.der")?
+        .with_cert_and_key("certs/me.der", "certs/me.key.der")?
+        .connect()
+        .await?;
+
+    // Establish a new publisher `Sink` that publishes to the topic "/acmeco/stocks".
+    let mut publisher = connection
+        .publisher("/acmeco/stocks")
+        .with_encoder(StringCodec)
+        .open()
+        .await?;
+
+    // Now we have a Sink to do stuff with
+    publisher.send("Hello, Selium!".to_owned()).await?;
+
+    Ok(())
+}
+```
+
+The only gotcha here is that you need to share your server's certificate authority with your clients, and client public keys with the server. Or, you can sign up for Selium Cloud for freeee. Then you won't need to share shit! Boom.
+
+## Where does the road lead?
+
+Ah mate, we have so much more planned! I can't wait to share with you what's coming in the medium term, but for now let's look at the immediate term:
+
+* Message retention & replay
+* Delivery guarantees
+* Broader protocol support
+* Improved docs and examples
+
+What would you like to see? Maybe a new language binding? [Let us know](mailto:hello@selium.com?subject=Feature%20please&body=Hello%20Selium%2C%0A%0AI%20would%20like%20you%20to%20build%20this%3A%20%3CA%20pig%20that%20can't%20fly%20but%20looks%20so%20cool%3E.%0A%0ATa) what floats your boat.
+
+If you like what we're doing, we would really appreciate your support! You can check out our GitHub here: [github.com/seliumlabs/selium](https://github.com/seliumlabs/selium).
+
+Until next time, have a fabulous this time!

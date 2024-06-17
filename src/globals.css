@@ -19,6 +19,30 @@ body {
   background: var(--background-rgb);
 }
 
+@layer base {
+  h1 {
+    @apply text-5xl text-violet-500 font-extrabold tracking-tight mt-20 mb-10;
+  }
+  h2 {
+    @apply text-3xl font-bold text-pink-500 mt-6 mb-3;
+  }
+  h3 {
+    @apply text-xl font-bold text-slate-500 mt-2 mb-1;
+  }
+  h4 {
+    @apply font-bold;
+  }
+  ul {
+    @apply list-outside list-disc pl-8;
+  }
+  a {
+    @apply text-blue-500 underline whitespace-nowrap;
+  }
+  pre {
+    @apply text-sm;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -192,8 +216,9 @@ body {
 }
 
 #pubSub2 {
-  offset-path: path('M0,0c-27.4,20-45.3,52.4-45.3,89c0,60.8,49.2,110,110,110v-0.9v130.9'
-    );
+  offset-path: path(
+    'M0,0c-27.4,20-45.3,52.4-45.3,89c0,60.8,49.2,110,110,110v-0.9v130.9'
+  );
   offset-distance: 0%;
   animation: multiB var(--animate-duration) linear infinite;
   left: 205px;
@@ -201,8 +226,9 @@ body {
 }
 
 #pubSub3 {
-  offset-path: path('M0,0c18.2-13.2,40.5-21,64.7-21 c24.2,0,46.5,7.8,64.7,21l-0.3,0.4l76.7-105.5'
-    );
+  offset-path: path(
+    'M0,0c18.2-13.2,40.5-21,64.7-21 c24.2,0,46.5,7.8,64.7,21l-0.3,0.4l76.7-105.5'
+  );
   offset-distance: 0%;
   animation: multiB var(--animate-duration) linear infinite;
   left: 205px;
@@ -269,8 +295,9 @@ body {
 }
 
 #sendReceive {
-  offset-path: path('M459.2,42.3L335.5,2.1l0,0c-14.3,44.1-55.8,76-104.6,76c-48.9,0-90.3-31.9-104.6-76l0.6-0.2L2,42.5'
-    );
+  offset-path: path(
+    'M459.2,42.3L335.5,2.1l0,0c-14.3,44.1-55.8,76-104.6,76c-48.9,0-90.3-31.9-104.6-76l0.6-0.2L2,42.5'
+  );
   left: 38px;
   top: 338px;
   background-color: #ff847b;
@@ -808,17 +835,21 @@ body {
 }
 
 @keyframes client {
-  0% {}
+  0% {
+  }
 
   25% {
     stroke: #ffffff;
   }
 
-  50% {}
+  50% {
+  }
 
-  60% {}
+  60% {
+  }
 
-  100% {}
+  100% {
+  }
 }
 
 .route {
