@@ -1,4 +1,4 @@
-const nextMDX = require('@next/mdx');
+import nextMDX from '@next/mdx';
 
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
@@ -13,4 +13,4 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
 };
 
-modules.exports = withMDX(nextConfig);
+export default withMDX(nextConfig);
