@@ -1,8 +1,7 @@
 {
-  "name": "selium-docs",
+  "name": "selium.com",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,6 +20,7 @@
     "gray-matter": "^4.0",
     "next": "^14.2",
     "next-mdx-remote": "^5.0",
+    "outseta-api-client": "^1.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
