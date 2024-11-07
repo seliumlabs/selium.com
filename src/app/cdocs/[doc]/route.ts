@@ -2,7 +2,10 @@ import OutsetaApiClient from 'outseta-api-client';
 import { EntityType } from 'outseta-api-client/dist/models/shared/entity-type';
 import { env } from 'process';
 
-export async function GET(_: Request, { params }: { params: { doc: string } }) {
+export async function GET(
+  _: Request,
+  { params }: { params: Promise<{ doc: string }> }
+) {
   const subdomain = env.OUTSETA_SUBDOMAIN;
   const apiKey = env.OUTSETA_KEY;
   const apiSecret = env.OUTSETA_SECRET;
@@ -25,12 +28,13 @@ export async function GET(_: Request, { params }: { params: { doc: string } }) {
   });
   let customerId;
   let filename;
+  const args = await params;
 
   // Parse path slug to retrieve customerId and filename
   try {
-    [customerId, filename] = parseSlug(params.doc);
+    [customerId, filename] = parseSlug(args.doc);
   } catch (e) {
-    console.error(`Invalid path slug: ${params.doc}`);
+    console.error(`Invalid path slug: ${args.doc}`);
     return new Response('Page not found', { status: 404 });
   }
 
