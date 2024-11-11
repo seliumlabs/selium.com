@@ -365,9 +365,9 @@ export default function Page({
                       <p className="mt-6 text-lg/8 text-gray-500">
                         Selium is objectively cheaper than its competition. Its
                         simplicity allows you to reuse existing developer
-                        resources, and its fast turnaround times reduces labour
+                        resources, and its fast turnaround times reduce labour
                         inputs. Selium&apos;s design requires you to deploy less{' '}
-                        <em>stuff</em>, so there&apos; less to go wrong.
+                        <em>stuff</em>, so there&apos;s less to go wrong.
                       </p>
                       <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-500 lg:max-w-none">
                         <div key="principles" className="relative pl-9">
