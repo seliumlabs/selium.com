@@ -5,7 +5,7 @@ import { SiteHeader } from '@/components/site-header';
 import { FormEvent, useState } from 'react';
 
 const OUTSETA_LIST_ID = 'vW5rkjm4';
-const OUTSETA_LIST_URL = `https://selium-labs.outseta.com/api/v1/public/email/lists/{OUTSETA_LIST_ID}/subscriptions`;
+const OUTSETA_LIST_URL = `https://selium-labs.outseta.com/api/v1/public/email/lists/${OUTSETA_LIST_ID}/subscriptions`;
 
 interface SubscribeReq {
   EmailList: { Uid: string };
