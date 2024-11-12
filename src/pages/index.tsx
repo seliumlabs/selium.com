@@ -2,21 +2,36 @@ import { AnimatedLogo } from '@/components/animated-logo';
 import { Container } from '@/components/container';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const OUTSETA_LIST_ID = 'vW5rkjm4';
 const OUTSETA_LIST_URL = `https://selium-labs.outseta.com/api/v1/public/email/lists/${OUTSETA_LIST_ID}/subscriptions`;
+const RECAPTCHA_SITE_KEY = '6Lert0YmAAAAAPD5nYyyeQXUjZv4KObWVTfkSAPi';
 
 interface SubscribeReq {
   EmailList: { Uid: string };
   Person: { Email: string };
   Source: 'embed';
+  RecaptchaSiteKey: string;
+  RecaptchaToken: string;
 }
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState(null);
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  function recaptchaChange(tok: string | null) {
+    setIsVerified(tok !== null);
+  }
+
+  function recaptchaExpired() {
+    setIsVerified(false);
+  }
 
   async function mailingListSub(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -29,6 +44,8 @@ export default function Home() {
         EmailList: { Uid: OUTSETA_LIST_ID },
         Person: { Email: form.get('email')! as string },
         Source: 'embed',
+        RecaptchaSiteKey: RECAPTCHA_SITE_KEY,
+        RecaptchaToken: form.get('g-recaptcha-response')! as string,
       };
 
       await fetch(OUTSETA_LIST_URL, {
@@ -214,26 +231,36 @@ export default function Home() {
                 </div>
               )}
               {!isSubmitted && (
-                <div className="flex gap-x-4">
-                  <label htmlFor="Email" className="sr-only">
-                    Email address
-                  </label>
-                  <input
-                    id="Email"
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="Enter your email"
-                    autoComplete="email"
-                    className="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-white/75 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm/6"
+                <div>
+                  <div className="flex gap-x-4">
+                    <label htmlFor="Email" className="sr-only">
+                      Email address
+                    </label>
+                    <input
+                      id="Email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="Enter your email"
+                      autoComplete="email"
+                      className="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-white/75 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm/6"
+                    />
+                    <button
+                      type="submit"
+                      disabled={isLoading || !isVerified}
+                      className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:bg-gray-300 disabled:text-gray-400"
+                    >
+                      {isLoading ? 'Subscribing...' : 'Subscribe'}
+                    </button>
+                  </div>
+
+                  <ReCAPTCHA
+                    sitekey={RECAPTCHA_SITE_KEY}
+                    ref={recaptchaRef}
+                    onChange={recaptchaChange}
+                    onExpired={recaptchaExpired}
+                    className="mt-5"
                   />
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  >
-                    {isLoading ? 'Subscribing...' : 'Subscribe'}
-                  </button>
                 </div>
               )}
               <p className="mt-4 text-sm/6 text-gray-300">
