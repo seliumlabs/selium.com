@@ -36,7 +36,10 @@ body {
     @apply list-outside list-disc pl-8;
   }
   a {
-    @apply text-blue-500 underline whitespace-nowrap;
+    @apply text-blue-500 no-underline whitespace-nowrap;
+  }
+  a:hover {
+    @apply underline;
   }
   pre {
     @apply text-sm;

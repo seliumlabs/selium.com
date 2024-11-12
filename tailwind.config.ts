@@ -20,6 +20,7 @@ const config: Config = {
   },
   plugins: [
     require('tailwind-highlightjs'),
+    require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
   ],
   safelist: [

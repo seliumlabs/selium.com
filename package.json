@@ -29,6 +29,7 @@
     "tailwind-highlightjs": "^2.0.1"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5",
     "@types/highlight.js": "^9.12.4",
     "@types/mdx": "^2.0",

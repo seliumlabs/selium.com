@@ -2,8 +2,52 @@ import { AnimatedLogo } from '@/components/animated-logo';
 import { Container } from '@/components/container';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { FormEvent, useState } from 'react';
+
+const OUTSETA_LIST_ID = 'vW5rkjm4';
+const OUTSETA_LIST_URL = `https://selium-labs.outseta.com/api/v1/public/email/lists/{OUTSETA_LIST_ID}/subscriptions`;
+
+interface SubscribeReq {
+  EmailList: { Uid: string };
+  Person: { Email: string };
+  Source: 'embed';
+}
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState(null);
+
+  async function mailingListSub(ev: FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+
+    setIsLoading(true);
+
+    try {
+      const form = new FormData(ev.currentTarget);
+      const req: SubscribeReq = {
+        EmailList: { Uid: OUTSETA_LIST_ID },
+        Person: { Email: form.get('email')! as string },
+        Source: 'embed',
+      };
+
+      await fetch(OUTSETA_LIST_URL, {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify(req),
+      });
+
+      setIsSubmitted(true);
+    } catch (err) {
+      const e: any = err;
+      setError(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+
+    return false;
+  }
+
   return (
     <main className="flex w-full min-h-screen flex-col items-center justify-between">
       <SiteHeader />
@@ -152,6 +196,54 @@ export default function Home() {
           </p>
         </div>
 
+        <div className="mt-20 bg-indigo-700 py-16 sm:py-24 rounded-lg">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
+            <h2 className="max-w-xl my-0 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:col-span-7">
+              Want product news and updates? Sign up for our newsletter.
+            </h2>
+            <form
+              onSubmit={mailingListSub}
+              className="w-full max-w-md lg:col-span-5 lg:pt-2"
+            >
+              {error && !isSubmitted && (
+                <div className="text-red-600 py-5">{error}</div>
+              )}
+              {isSubmitted && (
+                <div className="text-white font-bold">
+                  Thanks for signing up!
+                </div>
+              )}
+              {!isSubmitted && (
+                <div className="flex gap-x-4">
+                  <label htmlFor="Email" className="sr-only">
+                    Email address
+                  </label>
+                  <input
+                    id="Email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="Enter your email"
+                    autoComplete="email"
+                    className="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-white/75 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm/6"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  >
+                    {isLoading ? 'Subscribing...' : 'Subscribe'}
+                  </button>
+                </div>
+              )}
+              <p className="mt-4 text-sm/6 text-gray-300">
+                We will not share your information with anyone. You can
+                unsubscribe at any time.
+              </p>
+            </form>
+          </div>
+        </div>
+
         <h2 className="text-violet-500 font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-20">
           Frequently asked questions
         </h2>
@@ -201,8 +293,8 @@ export default function Home() {
               className="text-blue-500"
               href="https://github.com/seliumlabs/selium"
             >
-              project on GitHub.{' '}
-            </a>
+              project on GitHub.
+            </a>{' '}
             We&apos;d really value your contributions.
           </p>
         </div>
