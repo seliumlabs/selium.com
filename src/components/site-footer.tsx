@@ -1,7 +1,6 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Container } from './container';
 
 const date = new Date();
 const year = date.getFullYear();
