@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.animate-blink {
+    animation: blink 1s infinite;
+}
+
+@keyframes pulse-logo {
+    0% {
+        background-color: var(--color-blue-500);
+    }
+    33% {
+        background-color: var(--color-teal-500);
+    }
+    66% {
+        background-color: var(--color-pink-500);
+    }
+    100% {
+        background-color: var(--color-blue-500);
+    }
+}
+
+.animate-pulse-logo {
+    animation: pulse-logo 4s infinite;
+}
+
+@keyframes pulse-logo-text {
+    0% {
+        color: var(--color-blue-500);
+    }
+    33% {
+        color: var(--color-teal-500);
+    }
+    66% {
+        color: var(--color-pink-500);
+    }
+    100% {
+        color: var(--color-blue-500);
+    }
+}
+
+.animate-pulse-logo-text {
+    animation: pulse-logo-text 4s infinite;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
 }
