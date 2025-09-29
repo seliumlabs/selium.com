@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="h-screen w-full grid place-items-center">
+    <section className="h-screen w-full grid place-items-center snap-start">
       <div className="mt-20 mx-auto max-w-4xl px-6 text-center">
         <div className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight flex text-white">
           Selium<span className="animate-pulse-logo-text">.</span>

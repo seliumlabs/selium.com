@@ -1,6 +1,6 @@
-import { P5CanvasInstance } from '@p5-wrapper/react';
-import { selectColour, selectPalette } from './colours';
-import { Particle } from './particle';
+import { P5CanvasInstance } from "@p5-wrapper/react";
+import { selectColour, selectPalette } from "./colours";
+import { Particle } from "./particle";
 
 export interface Settings {
   backgroundColour: string;
@@ -30,6 +30,10 @@ export interface Dimensions {
   poleY: number;
   polePreciseX: number;
   polePreciseY: number;
+  pole2X: number;
+  pole2Y: number;
+  pole2PreciseX: number;
+  pole2PreciseY: number;
   sclX: number;
   sclY: number;
 }
@@ -43,21 +47,21 @@ export interface Point {
   pull: number;
 }
 
-export function calculateDimensions(
-  settings: Settings,
-  width: number,
-  height: number
-): Dimensions {
+export function calculateDimensions(settings: Settings, width: number, height: number): Dimensions {
   const [cols, sclX] = rowcol(settings.scl, width);
   const [rows, sclY] = rowcol(settings.scl, height);
 
   // Pole is the origin point for all particles, set in the middle of the logo,
   // at the bottom of the canvas.
   const poleX = Math.ceil(cols / 2);
-  const poleY = Math.ceil(rows) - 1;
-
+  const poleY = Math.ceil(rows);
   const polePreciseX = poleX * sclX - sclX / 2;
   const polePreciseY = poleY * sclY - sclY / 2;
+
+  const pole2X = Math.ceil(cols / 2);
+  const pole2Y = 0;
+  const pole2PreciseX = pole2X * sclX - sclX / 2;
+  const pole2PreciseY = pole2Y * sclY - sclY / 2;
 
   return {
     width,
@@ -70,13 +74,17 @@ export function calculateDimensions(
     poleY,
     polePreciseX,
     polePreciseY,
+    pole2X,
+    pole2Y,
+    pole2PreciseX,
+    pole2PreciseY,
   };
 }
 
 export function createPoints(
   p5: P5CanvasInstance,
   settings: Settings,
-  dimensions: Dimensions
+  dimensions: Dimensions,
 ): Point[] {
   const poleStrength = dimensions.rows;
   const points: Point[] = [];
@@ -90,13 +98,12 @@ export function createPoints(
           col,
           row,
           dimensions.poleX,
-          dimensions.poleY
+          dimensions.poleY,
         );
 
         let pull = 0;
         if (proximity <= poleStrength) {
-          pull =
-            Math.sin(p5.map(proximity, 0, poleStrength, 0, p5.PI)) * Math.PI;
+          pull = Math.sin(p5.map(proximity, 0, poleStrength, 0, p5.PI)) * Math.PI;
         }
 
         const i = row * dimensions.cols + col;
@@ -119,7 +126,7 @@ export function setup(
   p5: P5CanvasInstance,
   settings: Settings,
   particles: Particle[],
-  dimensions: Dimensions
+  dimensions: Dimensions,
 ) {
   p5.createCanvas(dimensions.width, dimensions.height);
   p5.colorMode(p5.HSB, 100);
@@ -130,28 +137,19 @@ export function setup(
     const polarityCheck = p5.random();
     let palette = selectPalette(p5.random());
     let maxSpeed = p5.random(settings.minMaxSpeed, settings.maxMaxSpeed);
-    let instStrokeWidth = p5.random(
-      settings.minStrokeWeight,
-      settings.maxStrokeWeight
-    );
+    let instStrokeWidth = p5.random(settings.minStrokeWeight, settings.maxStrokeWeight);
 
     let polarityInst;
     let startX;
     let startY;
     if (polarityCheck < settings.polarityThreshold) {
-      [startX, startY] = boundaryCondition(
-        p5,
-        settings.scl,
-        dimensions.width,
-        dimensions.height,
-        dimensions.sclX,
-        dimensions.sclY
-      );
-      polarityInst = 'attraction';
+      startX = dimensions.pole2PreciseX;
+      startY = dimensions.pole2PreciseY;
+      polarityInst = "attraction";
     } else {
       startX = dimensions.polePreciseX;
       startY = dimensions.polePreciseY;
-      polarityInst = 'replusion';
+      polarityInst = "replusion";
     }
 
     const hueNoise = p5.noise(hueOff);
@@ -162,7 +160,7 @@ export function setup(
       startX,
       startY,
       maxSpeed,
-      instStrokeWidth
+      instStrokeWidth,
     );
     hueOff += settings.hueInc;
   }
@@ -179,7 +177,6 @@ export function draw(
   particles: Particle[],
   dimensions: Dimensions,
   counter: number,
-  zoff: number
 ) {
   // Fade out old lines over time
   if (counter % settings.fadeRate === 0) {
@@ -196,34 +193,25 @@ export function draw(
   }
 
   for (const particle of particles) {
-    particle.follow(
-      points,
-      dimensions.cols,
-      dimensions.sclX,
-      dimensions.sclY,
-      zoff
-    );
+    particle.follow(points, dimensions.cols, dimensions.sclX, dimensions.sclY);
     particle.update();
     particle.show();
     particle.edges(
       dimensions.polePreciseX,
       dimensions.polePreciseY,
+      dimensions.pole2PreciseX,
+      dimensions.pole2PreciseY,
       dimensions.width,
       dimensions.height,
       dimensions.sclX,
-      dimensions.sclY
+      dimensions.sclY,
     );
   }
 
-  return [counter + 1, zoff + 0.000375];
+  return counter + 1;
 }
 
-function proximityCheck(
-  col: number,
-  row: number,
-  poleX: number,
-  poleY: number
-) {
+function proximityCheck(col: number, row: number, poleX: number, poleY: number) {
   const deltaX = col - poleX + 1;
   const deltaY = row - poleY + 1;
   const proximity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
@@ -240,7 +228,7 @@ function boundaryCondition(
   width: number,
   height: number,
   sclX: number,
-  sclY: number
+  sclY: number,
 ) {
   const resultantNoise = p5.random(1);
   const boundarySeed = Math.floor(p5.random(1, 4));

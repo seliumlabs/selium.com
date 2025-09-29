@@ -11,7 +11,7 @@ import Design from "./home/design";
 
 export default function Home() {
   return (
-    <div className="absolute h-screen w-full overflow-y-scroll text-white bg-gray-950 bg-scroll">
+    <div className="absolute h-screen w-full overflow-y-scroll text-white bg-gray-950 snap-y snap-mandatory">
       {/*<AnimatedLogo />*/}
       <Header />
       <div className="z-10">

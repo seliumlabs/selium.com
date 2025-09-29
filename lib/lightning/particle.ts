@@ -1,12 +1,13 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { Colour } from "./colours";
 import { Point } from "./main";
+import { Vector } from "p5";
 
 export class Particle {
-  private pos: any; // p5.Vector;
-  private prevPos: any; //p5.Vector;
-  private vel: any; //p5.Vector;
-  private acc: any; //p5.Vector;
+  private pos: Vector;
+  private prevPos: Vector;
+  private vel: Vector;
+  private acc: Vector;
 
   constructor(
     private p5: P5CanvasInstance,
@@ -35,13 +36,13 @@ export class Particle {
     this.acc.mult(0);
   }
 
-  follow(points: Point[], cols: number, sclX: number, sclY: number, zoff: number) {
+  follow(points: Point[], cols: number, sclX: number, sclY: number) {
     const x = Math.floor(this.pos.x / sclX);
     const y = Math.floor(this.pos.y / sclY);
     const index = x + y * cols;
     if (index in points) {
       const point = points[index];
-      const noise = this.p5.noise(point.perlinCol, point.perlinRow, zoff);
+      const noise = this.p5.noise(point.perlinCol, point.perlinRow);
       const deflection = this.p5.map(noise, 0, 1, -1, 1);
       const angle = point.attraction + point.pull * deflection;
 
@@ -78,6 +79,8 @@ export class Particle {
   edges(
     polePreciseX: number,
     polePreciseY: number,
+    pole2PreciseX: number,
+    pole2PreciseY: number,
     width: number,
     height: number,
     sclX: number,
@@ -96,31 +99,13 @@ export class Particle {
       this.updatePrev();
     }
 
-    if (this.pos.x > width || this.pos.x < 0 || this.pos.y > height || this.pos.y < 0) {
+    if (
+      this.pos.x >= pole2PreciseX - poleWidth &&
+      this.pos.x <= pole2PreciseX + poleWidth &&
+      this.pos.y >= pole2PreciseY - poleHeight &&
+      this.pos.y <= pole2PreciseY + poleHeight
+    ) {
       this.polarity = "attraction";
-      let boundarySeed = Math.round(this.p5.random(1, 4));
-      this.pos.x = 0;
-      this.pos.y = 0;
-      switch (boundarySeed) {
-        case 1:
-          this.pos.y = this.p5.random(0, height);
-          break;
-
-        case 2:
-          this.pos.x = this.p5.random(0, width);
-          break;
-
-        case 3:
-          this.pos.x = width;
-          this.pos.y = this.p5.random(0, height);
-          break;
-
-        case 4:
-          this.pos.x = this.p5.random(0, width);
-          this.pos.y = height;
-          break;
-      }
       this.updatePrev();
     }
-  }
 }

@@ -18,7 +18,7 @@ const app_name = uniqueNamesGenerator({
 
 export default function Demo() {
   return (
-    <section id="demo" className="h-screen flex mx-auto max-w-4xl">
+    <section id="demo" className="h-screen flex mx-auto max-w-4xl snap-center">
       <div className="w-full my-auto bg-white px-6 rounded-xl py-16 text-gray-800">
         <h2 className="mx-auto max-w-3xl text-center text-4xl font-semibold tracking-tight sm:text-5xl">
           Try it out now

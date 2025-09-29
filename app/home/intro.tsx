@@ -34,7 +34,7 @@ const features = [
 
 export default function Intro() {
   return (
-    <section id="intro" className="h-screen flex">
+    <section id="intro" className="h-screen flex snap-center overflow-clip">
       <div className="mx-auto my-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pt-4 lg:pr-8">
@@ -65,7 +65,7 @@ export default function Intro() {
           </div>
           <img
             alt="Product screenshot"
-            src="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
+            src="/images/ide_screen.png"
             width={2432}
             height={1442}
             className="w-3xl max-w-none rounded-xl shadow-xl ring-1 sm:w-228 md:-ml-4 lg:-ml-0 ring-white/10"

@@ -45,7 +45,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="h-screen flex">
+    <section className="h-screen flex snap-center">
       <div className="mx-auto my-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <p className="text-base/7 font-semibold text-teal-500">
