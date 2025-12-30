@@ -1,51 +1,33 @@
-import {
-  adjectives,
-  animals,
-  colors,
-  names,
-  NumberDictionary,
-  uniqueNamesGenerator,
-} from "unique-names-generator";
-
-// Random app name generation
-const numbers = NumberDictionary.generate({ min: 100, max: 999 });
-const app_name = uniqueNamesGenerator({
-  dictionaries: [adjectives, animals, colors, names, numbers],
-  separator: "_",
-  length: 3,
-  style: "lowerCase",
-});
-
 export default function Demo() {
   return (
-    <section id="demo" className="h-screen flex mx-auto max-w-4xl snap-center">
-      <div className="w-full my-auto bg-white px-6 rounded-xl py-16 text-gray-800">
-        <h2 className="mx-auto max-w-3xl text-center text-4xl font-semibold tracking-tight sm:text-5xl">
-          Try it out now
-        </h2>
-        <p className="text-center mt-5">
-          Launch your own Selium sandpit and start experimenting with zero effort.{" "}
-          <strong>No sign up required!</strong>
-        </p>
-        <form className="mx-auto mt-10 flex max-w-md gap-x-1 items-baseline">
-          <label htmlFor="app-name" className="font-bold">
-            sel://selium.com/demo/
-          </label>
-          <input
-            id="app-name"
-            name="app_name"
-            type="text"
-            required
-            defaultValue={app_name}
-            className="min-w-0 flex-auto pr-2 pt-2 border-b-black border-b-1 text-base focus:outline-0 placeholder:text-gray-400"
-          />
-          <button
-            type="submit"
-            className="cursor-pointer rounded-md animate-pulse-logo text-white px-3.5 py-2.5 text-sm font-semibold hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2"
-          >
-            Launch
-          </button>
-        </form>
+    <section id="demo" className="relative py-24 sm:py-32">
+      <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="rounded-3xl border border-white/10 bg-white px-6 py-16 text-gray-900 shadow-2xl sm:px-12">
+          <h2 className="mx-auto max-w-3xl text-center text-4xl font-semibold tracking-tight sm:text-5xl">
+            Live demo coming soon
+          </h2>
+          <p className="mt-5 text-center text-base text-gray-700">
+            We are preparing a hosted demo. For day one, the best way to explore Selium is running
+            it locally.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="#get-started"
+              className="rounded-md border border-gray-900 bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800"
+            >
+              Run locally
+            </a>
+            <a
+              href="/docs"
+              className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-100"
+            >
+              Read the docs
+            </a>
+          </div>
+          <p className="mt-6 text-center text-xs text-amber-600">
+            Placeholder: confirm the timeline and sign-up flow for the hosted demo.
+          </p>
+        </div>
       </div>
     </section>
   );

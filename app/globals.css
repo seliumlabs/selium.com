@@ -51,9 +51,11 @@
     animation: pulse-logo-text 4s infinite;
 }
 
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
+.typewriter {
+    text-transform: none;
+    overflow: hidden;
+    border-right: 0.1em solid white;
+    animation: var(--animate-typewriter);
 }
 
 @theme inline {
@@ -61,6 +63,25 @@
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+
+    --animate-typewriter: typewriter 1s steps(11, end), blink-caret 0.75s step-end infinite;
+    @keyframes typewriter {
+        from {
+            width: 0;
+        }
+        to {
+            width: 100%;
+        }
+    }
+    @keyframes blink-caret {
+        from,
+        to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: white;
+        }
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -70,8 +91,17 @@
     }
 }
 
+html {
+    scroll-snap-type: y mandatory;
+}
+
+main > section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
+    scroll-snap-type: y mandatory;
 }

@@ -9,53 +9,49 @@ import {
 
 const features = [
   {
-    name: "No legacy baggage.",
-    description: "Forget VMs, containers, and config files.",
+    name: "Channels only I/O.",
+    description: "All communication flows through typed channels, inside and outside Selium.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "Stay in flow.",
-    description: "Never leave your IDE.",
+    name: "Capability-first access.",
+    description: "Explicit grants, no ambient authority. Handles are guarded by design.",
     icon: LockClosedIcon,
   },
   {
     name: "Determinism by default.",
-    description: "If it runs one, it runs every time, everywhere.",
+    description: "If it runs once, it runs consistently. No hidden state, no magic.",
     icon: ArrowPathIcon,
   },
   {
-    name: "Full ownership.",
-    description:
-      "Build, test, deploy, and manage without hidden layers or unnecessary complications.",
+    name: "Code is the source of truth.",
+    description: "Your application describes the build, the wiring, and the runtime posture.",
     icon: FingerPrintIcon,
   },
   {
     name: "Simply scalable.",
-    description:
-      "Replicas and sharding without the drama. Allow Selium to distribute your application's services intelligently and automatically.",
+    description: "Scale functions, not servers. Opt-in elastic scaling with clear controls.",
     icon: ScaleIcon,
   },
   {
     name: "Messaging, not networking.",
-    description:
-      "Trivially connect services and communicate with the outside world using Selium's extensible messaging layer.",
+    description: "Uniform messaging APIs across HTTP, QUIC, TCP, UDP, and more.",
     icon: EnvelopeIcon,
   },
 ];
 
 export default function Features() {
   return (
-    <section className="h-screen flex snap-center">
-      <div className="mx-auto my-auto max-w-7xl px-6 lg:px-8">
+    <section id="capabilities" className="relative py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <p className="text-base/7 font-semibold text-teal-500">
-            Secure, scalable and feature rich
-          </p>
+          <p className="text-base/7 font-semibold text-teal-400">Core capabilities</p>
           <h2 className="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl lg:text-balance text-white">
-            Designed for the modern world
+            Built for stream-native systems
           </h2>
           <p className="mt-6 text-lg/8 text-gray-300">
-            This is the developer-driven experience you always knew was possible.
+            Selium keeps the platform out of the way. Focus on service logic while the fabric
+            handles orchestration, messaging, and safety.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
