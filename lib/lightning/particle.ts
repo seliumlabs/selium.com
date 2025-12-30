@@ -1,13 +1,13 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { Colour } from "./colours";
 import { Point } from "./main";
-import { Vector } from "p5";
+import type p5 from "p5";
 
 export class Particle {
-  private pos: Vector;
-  private prevPos: Vector;
-  private vel: Vector;
-  private acc: Vector;
+  private pos: p5.Vector;
+  private prevPos: p5.Vector;
+  private vel: p5.Vector;
+  private acc: p5.Vector;
 
   constructor(
     private p5: P5CanvasInstance,
@@ -19,8 +19,9 @@ export class Particle {
     private strokeWidth: number,
   ) {
     this.pos = p5.createVector(x, y);
-    this.vel = p5.constructor.Vector.random2D();
-    // this.vel = p5.constructor.Vector.fromAngle(0);
+    const angle = this.p5.random(this.p5.TWO_PI);
+    this.vel = this.p5.createVector(Math.cos(angle), Math.sin(angle));
+    // this.vel = this.p5.createVector(1, 0);
     this.acc = p5.createVector(0, 0);
     this.prevPos = this.pos.copy();
   }
@@ -45,10 +46,11 @@ export class Particle {
       const noise = this.p5.noise(point.perlinCol, point.perlinRow);
       const deflection = this.p5.map(noise, 0, 1, -1, 1);
       const angle = point.attraction + point.pull * deflection;
+      const force = this.p5.createVector(Math.cos(angle), Math.sin(angle));
 
       this.p5.push();
       this.p5.translate(point.xPos, point.yPos);
-      this.acc.add(this.p5.constructor.Vector.fromAngle(angle));
+      this.acc.add(force);
       this.p5.pop();
     }
   }
@@ -108,4 +110,5 @@ export class Particle {
       this.polarity = "attraction";
       this.updatePrev();
     }
+  }
 }
