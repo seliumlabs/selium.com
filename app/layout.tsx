@@ -28,6 +28,11 @@ export default function RootLayout({
       <body className={`${interTight.className} ${geistMono.variable} antialiased scroll-smooth`}>
         {children}
         <Analytics />
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="SvJu9dX3kQGEyPNmEXCNNw"
+          async
+        ></script>
       </body>
     </html>
   );
