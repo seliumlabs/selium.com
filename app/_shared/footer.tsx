@@ -14,7 +14,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-4 text-sm">
-          {/*<a href="/#how" className="hover:text-white">
+          <a href="/#how" className="hover:text-white">
             How it works
           </a>
           <a href="/#designed" className="hover:text-white">
@@ -25,7 +25,7 @@ export default function Footer() {
           </a>
           <a href="https://github.com/seliumlabs/selium" className="hover:text-white">
             GitHub
-            </a>*/}
+          </a>
         </div>
         <div className="text-xs text-white/50">
           © {new Date().getFullYear()} Selium. The cloud, reimagined.

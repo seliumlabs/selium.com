@@ -1,0 +1,33 @@
+---
+title: "Overview"
+description: "Understand Selium's docs structure and the core runtime flow."
+---
+
+# Selium documentation
+
+Selium is a channel-native compute fabric for WASM services. These docs focus on installing the CLI, defining a service, and shipping it to the fabric.
+
+## Quickstart
+
+```bash
+curl -fsSL https://selium.dev/install.sh | sh
+selium login
+selium init my-first-service
+selium deploy
+```
+
+## Minimal service
+
+```rust
+use selium::runtime::Handler;
+
+#[selium::service]
+async fn handle(req: Request) -> Response {
+    Response::text("hello from selium")
+}
+```
+
+## What to read next
+
+- Get from zero to a deployed service in Getting started.
+- Learn how the runtime is configured in Configuration.

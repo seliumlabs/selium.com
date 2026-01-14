@@ -22,13 +22,13 @@ export default function Home() {
       <Header />
       <main className="relative z-10">
         <Hero />
-        {/*<Designed />
+        <Designed />
         <Overview />
         <Features />
         <Design />
         <UseCases />
         <GetStarted />
-         <Demo />*/}
+        {/*<Demo />*/}
       </main>
       <Footer />
     </div>

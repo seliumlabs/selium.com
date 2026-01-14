@@ -1,0 +1,39 @@
+---
+title: "Getting started"
+description: "Install the CLI, scaffold a service, and deploy to Selium."
+---
+
+# Getting started
+
+This walkthrough takes you from an empty directory to a running Selium service.
+
+## Install the CLI
+
+```bash
+curl -fsSL https://selium.dev/install.sh | sh
+selium --version
+```
+
+## Create a service
+
+```bash
+selium init hello-selium
+cd hello-selium
+```
+
+Your project includes a manifest, a Rust entrypoint, and a test payload.
+
+## Run locally
+
+```bash
+selium dev
+```
+
+## Deploy
+
+```bash
+selium deploy
+selium logs --tail
+```
+
+If deployment fails, verify your credentials and confirm that your manifest values are valid for the target region.

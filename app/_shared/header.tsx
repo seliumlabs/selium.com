@@ -10,12 +10,12 @@ interface Nav {
 }
 
 const navigation: Nav[] = [
-  // { name: "Designed", href: "/#designed" },
-  // { name: "How it works", href: "/#how" },
-  // { name: "Capabilities", href: "/#capabilities" },
-  // { name: "Security", href: "/#security" },
-  // { name: "Use cases", href: "/#use-cases" },
-  // { name: "Get started", href: "/#get-started" },
+  { name: "Designed", href: "/#designed" },
+  { name: "How it works", href: "/#how" },
+  { name: "Capabilities", href: "/#capabilities" },
+  { name: "Security", href: "/#security" },
+  { name: "Use cases", href: "/#use-cases" },
+  { name: "Get started", href: "/#get-started" },
 ];
 
 export default function Header() {
@@ -28,8 +28,9 @@ export default function Header() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <a href="/#top" className="-m-1.5 p-1.5">
-          <span className="sr-only">Selium</span>
-          <span className="animate-pulse-logo w-5 h-5 rounded-full inline-flex items-center justify-center"></span>
+          <div className="text-3xl font-semibold tracking-tight flex text-white">
+            Selium<span className="animate-pulse-logo-text">.</span>
+          </div>
         </a>
         <div className="flex lg:hidden">
           <button
@@ -52,7 +53,7 @@ export default function Header() {
             </a>
           ))}
           <div>
-            {/*<a
+            <a
               href="/docs"
               className="rounded-md rounded-tr-none rounded-br-none border border-white border-r-0 bg-white px-3 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-200 hover:border-gray-200"
             >
@@ -61,12 +62,6 @@ export default function Header() {
             <a
               href="https://github.com/seliumlabs/selium"
               className="rounded-md rounded-tl-none rounded-bl-none border border-white/20 border-l-0 px-3 py-1.5 text-sm font-semibold text-white hover:border-white/60"
-            >
-              GitHub
-              </a>*/}
-            <a
-              href="https://github.com/seliumlabs/selium"
-              className="rounded-md border border-white/20 px-3 py-1.5 text-sm font-semibold text-white hover:border-white/60"
             >
               GitHub
             </a>
