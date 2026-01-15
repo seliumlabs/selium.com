@@ -21,8 +21,8 @@ const steps = [
 
 export default function GetStarted() {
   return (
-    <section id="get-started" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="get-started" className="flex h-screen snap-center">
+      <div className="my-auto mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <p className="text-base/7 font-semibold text-emerald-300">Get started</p>
           <h2 className="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl text-white">
@@ -55,7 +55,10 @@ export default function GetStarted() {
               <a href="/docs" className="text-emerald-200 hover:text-white">
                 Docs at /docs
               </a>
-              <a href="https://github.com/seliumlabs/selium" className="text-emerald-200 hover:text-white">
+              <a
+                href="https://github.com/seliumlabs/selium"
+                className="text-emerald-200 hover:text-white"
+              >
                 GitHub repo
               </a>
               <span className="text-amber-300">Placeholder: add community links.</span>

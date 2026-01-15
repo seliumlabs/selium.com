@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${interTight.className} ${geistMono.variable} antialiased scroll-smooth`}>
+      <body className={`${interTight.className} ${geistMono.variable} antialiased`}>
         {children}
         <Analytics />
         <script

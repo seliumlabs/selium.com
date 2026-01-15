@@ -10,11 +10,9 @@ interface Nav {
 }
 
 const navigation: Nav[] = [
-  { name: "Designed", href: "/#designed" },
-  { name: "How it works", href: "/#how" },
-  { name: "Capabilities", href: "/#capabilities" },
-  { name: "Security", href: "/#security" },
+  { name: "Features", href: "/#features" },
   { name: "Use cases", href: "/#use-cases" },
+  { name: "Security", href: "/#security" },
   { name: "Get started", href: "/#get-started" },
 ];
 
@@ -22,7 +20,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed w-full z-10 bg-transparent backdrop-blur-xl border-b border-white/10">
+    <header className="fixed w-full z-50 bg-transparent backdrop-blur-xl border-b border-white/10">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"

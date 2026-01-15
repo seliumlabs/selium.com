@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section id="top" className="relative min-h-screen w-full grid place-items-center">
+    <section id="top" className="relative min-h-screen w-full snap-start grid place-items-center">
       <div className="mt-20 mx-auto max-w-4xl px-6 text-center">
         <div className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight flex text-white">
           Selium<span className="animate-pulse-logo-text">.</span>
@@ -20,7 +20,7 @@ export default function Hero() {
           </span>
         </h1>
         <p className="mt-6 text-balance text-white/70 text-base sm:text-lg">
-          A software framework and runtime for building scalable, connected applications.
+          A software-defined WebAssembly hypervisor for building scalable, connected applications.
         </p>
         <div className="pointer-events-auto mt-12 flex flex-wrap items-center justify-center gap-3 text-6xl font-extralight">
           <a
