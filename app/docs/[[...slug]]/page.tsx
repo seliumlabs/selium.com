@@ -6,17 +6,18 @@ import defaultMdxComponents, { createRelativeLink } from "fumadocs-ui/mdx";
 import { docsSource } from "@/lib/docs-source";
 
 interface DocsPageProps {
-  params: {
+  params: Promise<{
     slug?: string[];
-  };
+  }>;
 }
 
 export function generateStaticParams() {
   return docsSource.getPages().map((page) => ({ slug: page.slugs }));
 }
 
-export function generateMetadata({ params }: DocsPageProps): Metadata {
-  const page = docsSource.getPage(params.slug);
+export async function generateMetadata({ params }: DocsPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const page = docsSource.getPage(slug);
   if (!page) {
     return {};
   }
@@ -27,8 +28,9 @@ export function generateMetadata({ params }: DocsPageProps): Metadata {
   };
 }
 
-export default function DocsSlugPage({ params }: DocsPageProps) {
-  const page = docsSource.getPage(params.slug);
+export default async function DocsSlugPage({ params }: DocsPageProps) {
+  const { slug } = await params;
+  const page = docsSource.getPage(slug);
   if (!page) {
     notFound();
   }

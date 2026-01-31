@@ -5,25 +5,35 @@ description: "Understand Selium's docs structure and the core runtime flow."
 
 # Selium documentation
 
-Selium is a channel-native compute fabric for WASM services. These docs focus on installing the CLI, defining a service, and shipping it to the fabric.
+_**Documentation will be updated shortly. In the meantime, [checkout some examples](https://github.com/seliumlabs/selium/tree/main/examples/).**_
+
+Selium is a modern, composable hypervisor for WebAssembly.
 
 ## Quickstart
 
 ```bash
-curl -fsSL https://selium.dev/install.sh | sh
-selium login
-selium init my-first-service
-selium deploy
+# Download and install Selium Runtime and its system modules
+curl --proto '=https' --tlsv1.2 -sSfL https://selium.com/install.sh | sh
+
+# Start a Selium Runtime for development
+selium-runtime \
+    --module 'path=selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000' \
+    --module 'path=selium_switchboard_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' \
+    --module 'path=selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' &
+
+# Query it to make sure it's online
+selium ps
 ```
 
 ## Minimal service
 
 ```rust
-use selium::runtime::Handler;
+use selium_userland::entrypoint;
+use tracing::info;
 
-#[selium::service]
-async fn handle(req: Request) -> Response {
-    Response::text("hello from selium")
+#[entrypoint]
+fn hello() {
+    info!("Hello, world!");
 }
 ```
 

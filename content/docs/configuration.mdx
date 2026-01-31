@@ -5,29 +5,4 @@ description: "Define runtime, resources, and deployment settings in selium.toml.
 
 # Configuration
 
-Selium uses a declarative manifest to define how a service runs inside the fabric.
-
-## Example manifest
-
-```toml
-[service]
-name = "hello-selium"
-runtime = "wasm32-wasi"
-entrypoint = "target/wasm32-wasi/release/hello.wasm"
-
-[resources]
-memory = "256Mi"
-concurrency = 64
-
-[deployment]
-region = "iad"
-min_replicas = 1
-max_replicas = 10
-```
-
-## Common fields
-
-- `service.name` sets the friendly identifier displayed in the console.
-- `service.runtime` chooses the execution target and ABI.
-- `resources.memory` caps runtime memory for each instance.
-- `deployment.region` selects the primary region for cold starts.
+Coming soon.
