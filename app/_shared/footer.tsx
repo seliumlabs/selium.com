@@ -9,9 +9,7 @@ export default function Footer() {
             <span className="animate-pulse-logo w-3 h-3 rounded-full inline-flex items-center justify-center"></span>
             Selium
           </div>
-          <p className="mt-2 text-xs text-white/50">
-            Channel-native compute fabric for WASM services.
-          </p>
+          <p className="mt-2 text-xs text-white/50">Software-defined WebAssembly hypervisor.</p>
         </div>
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <a href="/#features" className="hover:text-white">

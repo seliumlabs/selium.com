@@ -23,7 +23,7 @@ export default function Header() {
     <header className="fixed w-full z-50 bg-transparent backdrop-blur-xl border-b border-white/10">
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8"
       >
         <a href="/#top" className="-m-1.5 p-1.5">
           <div className="text-3xl font-semibold tracking-tight flex text-white">
