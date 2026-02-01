@@ -1,4 +1,14 @@
 {
   "title": "Docs",
-  "pages": ["index", "getting-started", "configuration"]
+  "pages": [
+    "index",
+    "getting-started",
+    "applications",
+    "channels",
+    "networking",
+    "runtime",
+    "switchboard",
+    "atlas",
+    "remote-client"
+  ]
 }
