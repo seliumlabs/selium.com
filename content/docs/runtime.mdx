@@ -3,8 +3,66 @@ title: "Runtime"
 description: "Selium's server process"
 ---
 
-# Runtime
+The Selium runtime (`selium-runtime`) is the host process that loads WASM modules, initialises drivers, and enforces capabilities.
+
+## Work directory
+
+The runtime uses a work directory (default `.` or `SELIUM_WORK_DIR`):
+
+- `certs/` for TLS material
+- `modules/` for WASM modules used by child processes
+
+Generate local certificates with:
+
+```bash
+selium-runtime generate-certs --output-dir selium-work/certs
+```
 
 ## Dependent modules
 
-`--module` arg breakdown
+The runtime can run on its own, but most setups include:
+
+- **Remote client** (`selium_remote_client_server.wasm`): allows the `selium` CLI to start/stop processes remotely.
+- **Switchboard** (`selium_switchboard_server.wasm`): typed messaging and automatic channel wiring.
+- **Atlas** (`selium_atlas_server.wasm`): discovery by `sel://` URI and log URI registration.
+
+All three are loaded with `--module` and require explicit capabilities.
+
+## Module specification
+
+`--module` accepts a `;`-separated list of `key=value` pairs. You can repeat `--module` to load multiple modules.
+
+Required keys:
+
+- `path`: relative to the work directory, no `..` segments
+- `capabilities`: comma-separated list
+
+Optional keys:
+
+- `entrypoint`: defaults to `start`
+- `params`: comma-separated ABI types (see below)
+- `args`: comma-separated values
+- `log_uri`: string passed to the entrypoint for log registration
+
+Example:
+
+```bash
+selium-runtime --work-dir selium-work \
+  --module 'path=modules/selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000'
+```
+
+### Params and args
+
+Parameter kinds:
+
+- `i8`, `u8`, `i16`, `u16`, `i32`, `u32`, `i64`, `u64`, `f32`, `f64`
+- `utf8` (string) or `buffer` (raw bytes)
+- `resource` (a u64 handle)
+
+If `params` is omitted, each `args` value must be typed (`utf8:localhost`, `u16:7000`). For `buffer`, prefix with `hex:` to pass raw bytes.
+
+The runtime injects a log URI argument before your declared params, so `params` only describes your entrypoint arguments.
+
+## Logging format
+
+Use `--log-format text|json` or `SELIUM_LOG_FORMAT` to control host log output. Guest logs are forwarded and tagged with the `selium.guest` target.

@@ -3,9 +3,36 @@ title: "Switchboard module"
 description: "Using the Switchboard module to extend Channels."
 ---
 
-# Switchboard Module
+Switchboard is a control plane for channels. You register typed endpoints, declare intent between them, and the switchboard computes the minimal channel wiring needed as services appear and disappear.
 
-Auto-routing
-Avoids data leakage
+It is designed to:
+
+- **Auto-route** traffic based on endpoint intents.
+- **Avoid data leakage** by only connecting the endpoints you explicitly wire.
+
+The switchboard server registers itself as a singleton (`selium.switchboard.singleton`), so guests can resolve it via `Context::require::<Switchboard>()`.
+
+To start the server module:
+
+```bash
+selium-runtime --work-dir selium-work \
+  --module 'path=modules/selium_switchboard_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry'
+```
 
 ## Messaging patterns
+
+The client library gives you typed wrappers built on top of channels:
+
+- **Publish/Subscribe**: `Publisher<T>` and `Subscriber<T>`
+- **Fanout**: load-balance a stream across subscribers
+- **Request/Response**: `Client<Req, Rep>` and `Server<Req, Rep>`
+
+Endpoints are registered with schema metadata (`FlatMsg` + `HasSchema`), so the switchboard only connects compatible types.
+
+Common flow:
+
+1. `let switchboard = ctx.require::<Switchboard>().await;`
+2. `let endpoint = switchboard.endpoint::<In, Out>()...register().await?;`
+3. `switchboard.connect_ids(from, to).await?;`
+
+Use `Cardinality` to control fan-in/fan-out, and `Backpressure` to tune how outbound links behave.

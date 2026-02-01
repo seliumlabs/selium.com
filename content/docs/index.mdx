@@ -1,43 +1,50 @@
 ---
 title: "Overview"
-description: "Understand Selium's docs structure and the core runtime flow."
+description: "Understand what Selium is and how it works."
 ---
 
-# Selium documentation
+Selium is a hypervisor for WebAssembly. Guests are WASM services, all I/O is via channels, and every side-effect is gated by explicit capabilities. Public wires use Flatbuffers, so type guarantees survive process boundaries.
 
-_**Documentation will be updated shortly. In the meantime, [checkout some examples](https://github.com/seliumlabs/selium/tree/main/examples/).**_
-
-Selium is a modern, composable hypervisor for WebAssembly.
+Selium is in alpha, so expect APIs and packaging to move a bit.
 
 ## Quickstart
 
 ```bash
-# Download and install Selium Runtime and its system modules
+# Install the runtime and system modules
 curl --proto '=https' --tlsv1.2 -sSfL https://selium.com/install.sh | sh
 
-# Start a Selium Runtime for development
-selium-runtime \
-    --module 'path=selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000' \
-    --module 'path=selium_switchboard_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' \
-    --module 'path=selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' &
+# Prepare a work directory
+mkdir -p selium-work/{certs,modules}
 
-# Query it to make sure it's online
-selium ps
+# Generate local TLS certs
+selium-runtime generate-certs --output-dir selium-work/certs
+
+# Start a runtime with the remote client, switchboard, and atlas modules
+selium-runtime --work-dir selium-work \
+  --module 'path=modules/selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000' \
+  --module 'path=modules/selium_switchboard_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' \
+  --module 'path=modules/selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry'
 ```
 
-## Minimal service
+Once the runtime is up, start a process with the `selium` CLI (the remote client):
 
-```rust
-use selium_userland::entrypoint;
-use tracing::info;
-
-#[entrypoint]
-fn hello() {
-    info!("Hello, world!");
-}
+```bash
+selium --cert-dir selium-work/certs \
+  start hello.wasm start \
+  --capabilities ChannelLifecycle,ChannelReader,ChannelWriter \
+  --attach
 ```
+
+## Core ideas
+
+- Channels are the only I/O primitive, backed by a ring buffer and explicit backpressure.
+- Capabilities are required for every host call; there is no ambient authority.
+- Flatbuffers are used on public wires; internal data can stay idiomatic.
+- The runtime loads WASM modules from a work directory and wires them by capabilities.
 
 ## What to read next
 
-- Get from zero to a deployed service in Getting started.
-- Learn how the runtime is configured in Configuration.
+- Get from zero to running in Getting started.
+- Learn how entrypoints, arguments, and capabilities work in Applications.
+- Understand the runtime flags and module specs in Runtime.
+- Dive into Channels to reason about backpressure and sharing.

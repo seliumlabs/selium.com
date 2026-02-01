@@ -3,12 +3,27 @@ title: "Networking"
 description: "Connecting to and exposing network services."
 ---
 
-# Networking
+Networking in Selium is capability-driven and exposed through `selium_userland::net`. You get bidirectional connections backed by the host stack while keeping explicit authority boundaries.
 
-Supported network protocols
-Still need to hand-roll HTTP proto
-Very early days and significant improvement is coming.
+Supported protocols:
+
+- `NetProtocol::Quic` (QUIC over UDP with TLS 1.3)
+- `NetProtocol::Http` (HTTP/1.1 over TCP)
+- `NetProtocol::Https` (HTTP/2 over TLS 1.3)
+
+TLS configuration is explicit: use `TlsServerConfig::register` and `TlsClientConfig::register`, gated by `NetTlsServerConfig` and `NetTlsClientConfig` capabilities.
+
+Selium is still early here. Expect improvements and higher-level helpers over time.
+
+## HTTP payloads
+
+HTTP connections surface complete request/response payloads as raw bytes. You are responsible for parsing or formatting HTTP messages when reading or writing frames. Chunked transfer encoding is not supported yet.
 
 ## Channels
 
-How does the network interact with channels? TLDR they don't directly, but they do implement `Stream` & `Sink` for building your own interop.
+Network connections are not channels, but they behave like `Stream`/`Sink` pairs. You can bridge them yourself:
+
+- read frames from a `Connection` and publish to a channel
+- subscribe to a channel and write frames to a `Connection`
+
+This keeps the network layer explicit and avoids any hidden cross-talk between services.

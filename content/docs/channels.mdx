@@ -3,18 +3,61 @@ title: "Channels"
 description: "How applications communicate within themselves and with each other."
 ---
 
-# Channels
+Channels are Selium's only I/O primitive. They are in-memory, many-to-many byte streams backed by a ring buffer and explicit backpressure rules.
 
-Channels are multi-tx/multi-rx
-Uses a ring buffer
-Tips on appropriately sizing channel buffers
+A few things to keep in mind:
+
+- Capacity is in bytes, not messages.
+- Writers send frames; readers consume frames.
+- Readers and writers implement `Stream` and `Sink` so you can compose them with `futures`.
+
+## Buffer sizing
+
+A practical rule: the buffer should be comfortably larger than your largest frame multiplied by your expected concurrent writers. If you see `ReaderBehind` errors or a lot of `Ok(0)` writes under drop backpressure, increase capacity or reduce frame size.
 
 ## Strong vs. Weak
 
+Channels support strong and weak readers/writers:
+
+- **Strong reader**: holds a read head slot, preventing writers from overwriting unread bytes.
+- **Weak reader**: does not hold a read head and can fall behind; it will return `ReaderBehind` if data is lost.
+- **Strong writer**: participates in backpressure accounting and keeps its tail slot.
+- **Weak writer**: releases its tail when idle and is suited to bursty or best-effort producers.
+
+Choose strong readers for correctness, weak readers for telemetry or lossy pipelines.
+
 ## Backpressure
+
+Backpressure is a channel setting, configured on creation:
+
+- `ChannelBackpressure::Park` (default) waits for space.
+- `ChannelBackpressure::Drop` returns immediately when the buffer is full.
+
+Use `Park` when you need delivery guarantees. Use `Drop` when sampling or best-effort is acceptable.
 
 ## Flatbuffers
 
+Public wires use Flatbuffers. The `selium_userland::encoding` module provides:
+
+- `FlatMsg` for encode/decode
+- `HasSchema` and `#[schema]` for schema metadata
+
+Example:
+
+```rust
+use selium_userland::encoding::{FlatMsg, FlatResult};
+
+let payload = FlatResult::ok(1, b"hello".to_vec());
+let bytes = FlatMsg::encode(&payload);
+let decoded: FlatResult = FlatMsg::decode(&bytes)?;
+```
+
 ## Sharing
 
-Briefly explain isolation using the `Registry` and `InstanceRegistry`.
+Channels are isolated per process by default. To share:
+
+- Call `Channel::share()` to obtain a `SharedChannel` handle.
+- Pass the handle to another process (for example via a capability or a singleton).
+- Call `Channel::attach_shared()` on the receiving side.
+
+Under the hood, the host `Registry` stores the shared resource, while each guest has an `InstanceRegistry` with its own handle table. Sharing is always explicit; there is no global name lookup unless you publish one via `SingletonRegistry`.

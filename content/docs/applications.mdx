@@ -3,14 +3,76 @@ title: "Applications"
 description: "Running your applications in Selium"
 ---
 
-# Applications
+Selium applications are WASM modules with one or more entrypoints. All I/O is done through channels and hostcalls guarded by capabilities.
 
-*Discovery* - The <work_dir>/modules/ directory
+## Discovery
+
+The runtime reads modules from its work directory:
+
+- `--work-dir` (or `SELIUM_WORK_DIR`) is the base directory
+- `certs/` holds TLS material
+- `modules/` holds WASM binaries
+
+When you launch a process (via `selium` or `ProcessBuilder`), the module id is resolved relative to `work_dir/modules`. For example, `hello.wasm` maps to `selium-work/modules/hello.wasm`.
+
+Bootstrap modules passed via `selium-runtime --module` are resolved relative to `work_dir`, so use `path=modules/<file>.wasm` if you keep everything under `modules/`.
 
 ## Entrypoints
 
-### Arguments
+Entrypoints are plain Rust functions marked with `#[entrypoint]`:
+
+```rust
+use selium_userland::entrypoint;
+
+#[entrypoint]
+async fn start() {
+    // Your service logic here.
+}
+```
+
+Notes:
+
+- Entrypoints can be `async` or sync.
+- Return types must be `()` or `Result<(), E>`.
+- You may accept at most one `Context` parameter (by value or `&Context`).
+- The runtime injects a hidden log URI argument before your declared parameters.
+- The default entrypoint name is `start`.
+
+## Arguments
+
+Entrypoint arguments travel through the ABI. You can pass them in three ways:
+
+- `selium-runtime --module ...;params=...;args=...`
+- `selium start ... --param ... --arg ...`
+- `ProcessBuilder` from another guest
+
+Supported parameter kinds are:
+
+- Scalars: `i8`, `u8`, `i16`, `u16`, `i32`, `u32`, `i64`, `u64`, `f32`, `f64`
+- Buffers: `utf8` (string), `buffer` (raw bytes)
+- Resources: `resource` (a handle like `SharedChannel`)
+
+If you omit `params`, each `arg` must be typed, for example `utf8:localhost` or `u16:7000`. Buffer args accept `hex:` to send raw bytes.
+
+For richer types, the entrypoint macro will decode rkyv payloads for any non-scalar parameter you declare. Use `ProcessBuilder::arg_rkyv` when spawning.
 
 ## Capabilities
 
+Every host call requires an explicit capability. Common ones include:
+
+- `ChannelLifecycle`: create, share, detach, drain, delete
+- `ChannelReader`: subscribe to channels
+- `ChannelWriter`: publish to channels
+- `ProcessLifecycle`: spawn or stop other processes
+- `NetQuic*` and `NetHttp*`: bind, accept, connect, read, write
+- `NetTlsServerConfig` / `NetTlsClientConfig`: create TLS configs for QUIC or HTTPS
+- `SingletonRegistry` / `SingletonLookup`: publish or resolve global singletons
+- `TimeRead`: read time helpers
+
+Grant the smallest set you can; there is no ambient authority.
+
 ## Logging
+
+Selium guests use `tracing`. The `#[entrypoint]` macro initialises the logging bridge automatically and forwards records over a dedicated channel. The runtime picks these up and emits them under the `selium.guest` target.
+
+To attach to logs from outside, pass `--attach` to the `selium` CLI. You can also supply a log URI via `--log-uri` (or `log_uri=` in a module spec) for Atlas-backed log registration.
