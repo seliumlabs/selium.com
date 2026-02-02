@@ -3,7 +3,7 @@ title: "Atlas module"
 description: "Discover applications and channels."
 ---
 
-Atlas is Selium's directory service. It maps `sel://` URIs to endpoint ids so services can discover each other without hardcoded handles.
+Atlas is Selium's directory service. It lets services find each other by stable names (`sel://` URIs) instead of passing around hardcoded handles.
 
 A typical URI looks like:
 
@@ -22,7 +22,7 @@ selium-runtime --work-dir selium-work \
 
 ## Basic operations
 
-The client supports:
+At its core, Atlas is a small key/value directory with a few convenience queries:
 
 - `get(uri)` -> `Option<AtlasId>`
 - `insert(uri, id)`

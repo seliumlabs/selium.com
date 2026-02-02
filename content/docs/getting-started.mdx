@@ -3,45 +3,66 @@ title: "Getting started"
 description: "Install the CLI, scaffold a service, and deploy to Selium."
 ---
 
-This guide sets up a local runtime, builds a tiny service, and runs it via the remote client.
+This guide gets you from zero to a running Selium service on your machine. You will:
+
+1. Install the Selium runtime and CLI.
+2. Build a tiny WASM service.
+3. Start a local runtime (with the remote client enabled).
+4. Launch your service and attach to its logs.
 
 ## Prerequisites
 
-- Rust (stable)
-- `rustup target add wasm32-unknown-unknown`
+You will need stable Rust (see [rustup.rs](https://rustup.rs)), plus the WebAssembly target:
+
+```bash
+rustup target add wasm32-unknown-unknown
+```
 
 ## 1. Install the runtime and CLI
 
-If you use the install script, you get `selium-runtime` (host) and `selium` (remote client CLI):
+We recommend using the install script to install `selium-runtime` (server) and `selium` (CLI):
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSfL https://selium.com/install.sh | sh
 ```
 
-Prefer building from source? From the Selium repos:
+### From source
+
+You can also build from source:
 
 ```bash
-# Runtime
+git clone https://github.com/seliumlabs/selium
+cd selium
+
 cargo build -p selium-runtime --release
 
-# Remote client and optional modules
+git clone https://github.com/seliumlabs/selium-modules
+
+cd selium-modules/remote-client
 cargo build -p selium-remote-client-server --target wasm32-unknown-unknown --release
+
+cd ../switchboard
 cargo build -p selium-switchboard-server --target wasm32-unknown-unknown --release
+
+cd ../atlas
 cargo build -p selium-atlas-server --target wasm32-unknown-unknown --release
 ```
 
-## 2. Create a work directory
+You'll also need to create a work directory and generate some TLS certificates:
 
 ```bash
 mkdir -p selium-work/{certs,modules}
+selium-runtime generate-certs --output-dir selium-work/certs
 ```
 
-The runtime expects:
+The certificates are used to secure the local QUIC server, which the CLI uses to talk to the runtime.
 
-- `selium-work/certs` for TLS material
-- `selium-work/modules` for WASM modules (your services and system modules)
+The work directory holds two groups of important files:
 
-## 3. Create a service
+- `selium-work/certs` for TLS certificates
+- `selium-work/modules` for WASM modules (your apps and system modules)
+
+## 2. Create a service
 
 `src/lib.rs`:
 
@@ -78,29 +99,37 @@ cargo build --release --target wasm32-unknown-unknown
 cp target/wasm32-unknown-unknown/release/hello.wasm selium-work/modules/
 ```
 
-## 4. Generate certs and start the runtime
+## 3. Start the runtime in the background
+
+The below command will start a new Selium runtime instance, preloading the Remote Client, Switchboard, and Atlas modules.
+These modules add extra functionality on top of the core platform. Generally you'll need the Remote Client for CLI
+access, but the Switchboard and Atlas can be omitted for a leaner runtime. See the
+[echo-no-deps](https://github.com/seliumlabs/selium/tree/main/examples/echo-no-deps) example for details.
+
+For this guide, we'll assume you're using all three.
 
 ```bash
-selium-runtime generate-certs --output-dir selium-work/certs
-
 selium-runtime --work-dir selium-work \
   --module 'path=modules/selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000' \
   --module 'path=modules/selium_switchboard_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' \
-  --module 'path=modules/selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry'
+  --module 'path=modules/selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry' &
 ```
 
-If you do not need service discovery or messaging, you can omit `switchboard` and `atlas`.
+## 4. Start your service with the CLI
 
-## 5. Start your service with the CLI
+Start your example application with required capabilities. These are required for creating a channel to publish logs to
+(`ChannelLifecycle`), and writing to that channel (`ChannelWriter`).
 
 ```bash
 selium --cert-dir selium-work/certs \
   start hello.wasm start \
-  --capabilities ChannelLifecycle,ChannelReader,ChannelWriter \
+  --capabilities ChannelLifecycle,ChannelWriter \
   --attach
 ```
 
-You will see `Started process (id=...)`. To stop it later:
+The CLI will print out the process's system ID, which you can use to stop it later:
+
+> Started process (id=...)
 
 ```bash
 selium --cert-dir selium-work/certs stop <id>
@@ -108,5 +137,5 @@ selium --cert-dir selium-work/certs stop <id>
 
 ## Next steps
 
-- Learn how entrypoints, arguments, and capabilities fit together in Applications.
-- Use Switchboard and Atlas for typed messaging and discovery.
+- Read **Applications** next to understand entrypoints, arguments, and capability grants.
+- If you want typed messaging and discovery, add **Switchboard** and **Atlas** to your mental model early.

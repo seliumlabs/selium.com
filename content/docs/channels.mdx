@@ -3,9 +3,9 @@ title: "Channels"
 description: "How applications communicate within themselves and with each other."
 ---
 
-Channels are Selium's only I/O primitive. They are in-memory, many-to-many byte streams backed by a ring buffer and explicit backpressure rules.
+If Selium had a single I/O primitive, this is it. Channels are how guests communicate with each other and with the host. They are in-memory, many-to-many byte streams backed by a ring buffer, with explicit backpressure rules so you can choose "wait for space" or "best effort" intentionally.
 
-A few things to keep in mind:
+Before you go too far, keep these mental notes handy:
 
 - Capacity is in bytes, not messages.
 - Writers send frames; readers consume frames.
@@ -17,7 +17,7 @@ A practical rule: the buffer should be comfortably larger than your largest fram
 
 ## Strong vs. Weak
 
-Channels support strong and weak readers/writers:
+Channels support strong and weak readers/writers. The short version is: "strong" participates in correctness/backpressure accounting; "weak" is allowed to fall behind or drop state when idle.
 
 - **Strong reader**: holds a read head slot, preventing writers from overwriting unread bytes.
 - **Weak reader**: does not hold a read head and can fall behind; it will return `ReaderBehind` if data is lost.
@@ -28,7 +28,7 @@ Choose strong readers for correctness, weak readers for telemetry or lossy pipel
 
 ## Backpressure
 
-Backpressure is a channel setting, configured on creation:
+Backpressure is a channel setting you choose at creation time:
 
 - `ChannelBackpressure::Park` (default) waits for space.
 - `ChannelBackpressure::Drop` returns immediately when the buffer is full.

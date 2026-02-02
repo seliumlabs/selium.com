@@ -3,11 +3,11 @@ title: "Applications"
 description: "Running your applications in Selium"
 ---
 
-Selium applications are WASM modules with one or more entrypoints. All I/O is done through channels and hostcalls guarded by capabilities.
+In Selium, an "application" is just a WASM module with one or more entrypoints. There is no guest OS, no filesystem to lean on by default, and no ambient authority. Instead, your module runs as an isolated process, does I/O through channels, and uses host calls only when you grant the required capabilities.
 
 ## Discovery
 
-The runtime reads modules from its work directory:
+The runtime needs a predictable place to find code and credentials. That is what the work directory is for:
 
 - `--work-dir` (or `SELIUM_WORK_DIR`) is the base directory
 - `certs/` holds TLS material
@@ -19,7 +19,7 @@ Bootstrap modules passed via `selium-runtime --module` are resolved relative to 
 
 ## Entrypoints
 
-Entrypoints are plain Rust functions marked with `#[entrypoint]`:
+Entrypoints are the functions the runtime is allowed to call. In Rust, you mark them with `#[entrypoint]`:
 
 ```rust
 use selium_userland::entrypoint;
@@ -30,7 +30,7 @@ async fn start() {
 }
 ```
 
-Notes:
+There are a few rules worth knowing up front:
 
 - Entrypoints can be `async` or sync.
 - Return types must be `()` or `Result<(), E>`.
@@ -40,13 +40,13 @@ Notes:
 
 ## Arguments
 
-Entrypoint arguments travel through the ABI. You can pass them in three ways:
+Entrypoint arguments travel through the ABI. In practice, you will pass them in one of three places:
 
 - `selium-runtime --module ...;params=...;args=...`
 - `selium start ... --param ... --arg ...`
 - `ProcessBuilder` from another guest
 
-Supported parameter kinds are:
+Most arguments are simple scalars or byte buffers:
 
 - Scalars: `i8`, `u8`, `i16`, `u16`, `i32`, `u32`, `i64`, `u64`, `f32`, `f64`
 - Buffers: `utf8` (string), `buffer` (raw bytes)
@@ -58,7 +58,9 @@ For richer types, the entrypoint macro will decode rkyv payloads for any non-sca
 
 ## Capabilities
 
-Every host call requires an explicit capability. Common ones include:
+Capabilities are Selium's permission system. Any time your guest wants the host to do something "real" (create/share a channel, open a socket, spawn a process, read time, etc.), the call is allowed only if the process was launched with the corresponding capability.
+
+Some common capability groups:
 
 - `ChannelLifecycle`: create, share, detach, drain, delete
 - `ChannelReader`: subscribe to channels
@@ -70,6 +72,51 @@ Every host call requires an explicit capability. Common ones include:
 - `TimeRead`: read time helpers
 
 Grant the smallest set you can; there is no ambient authority.
+
+## Singletons
+
+As soon as you have more than one process, you need a way to "find" shared infrastructure. Selium's answer is **singletons**: a tiny host registry that maps a stable identifier to a shared resource handle.
+
+This is how system modules make themselves discoverable. For example, Switchboard and Atlas register a shared handle under a well-known id, and other guests resolve it on demand.
+
+### Reading (resolving) a singleton
+
+Most of the time you do not look up raw handles yourself. Client libraries expose a typed dependency, and you resolve it through the guest `Context`:
+
+```rust
+use selium_userland::Context;
+
+let ctx = Context::current();
+let switchboard = ctx.require::<Switchboard>().await;
+```
+
+Under the hood this performs a singleton lookup and then builds a typed wrapper from the returned handle. To resolve singletons, the process needs the `SingletonLookup` capability.
+
+### Registering a singleton
+
+Registering is for the "provider" side: a process (often a system module) creates some shared resource, shares it into the host registry, and then registers that shared handle under a stable id. Registration requires the `SingletonRegistry` capability, and the resource itself must already be shareable (for example a channel you have exported via `Channel::share`).
+
+```rust
+use selium_userland::{
+    DependencyId,
+    io::{Channel, DriverError},
+    singleton,
+};
+
+// Pick a stable 16-byte identifier and keep it forever.
+const MY_SINGLETON: DependencyId = DependencyId([0; 16]);
+
+async fn register_my_singleton() -> Result<(), DriverError> {
+    let channel = Channel::create(64 * 1024).await?;
+    let shared = channel.share().await?;
+
+    // Register the shared handle in the host singleton registry.
+    singleton::register(MY_SINGLETON, shared.raw()).await?;
+    Ok(())
+}
+```
+
+Singleton registration is intentionally strict: if an id is already taken, registration fails. That keeps "who provides what" explicit and avoids accidental shadowing.
 
 ## Logging
 

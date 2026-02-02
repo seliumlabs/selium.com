@@ -3,7 +3,7 @@ title: "Remote Client module"
 description: "Facilitates orchestration and I/O from outside of the Selium network."
 ---
 
-The remote client module exposes a control plane over QUIC so you can start/stop processes and interact with channels from outside the runtime. It powers the `selium` CLI.
+The remote client module is Selium's "outside-in" control plane. It exposes a QUIC endpoint that lets you start/stop processes and interact with channels from outside the runtime. The `selium` CLI is just a client for this module.
 
 To start the server module:
 
@@ -12,7 +12,7 @@ selium-runtime --work-dir selium-work \
   --module 'path=modules/selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000'
 ```
 
-The `args` are the bind domain and port for the control plane.
+The `args` are the bind domain and port for the control plane (where the CLI will connect).
 
 ## CLI basics
 
@@ -39,4 +39,4 @@ Note: `selium ps` is currently stubbed.
 
 ## Capabilities
 
-The remote client will only request the capabilities you pass in. For example, `ProcessLifecycle` is required to spawn processes, and `NetHttp*` is required for HTTP I/O inside those processes. Keep the list tight.
+The remote client will only request the capabilities you pass in. For example, `ProcessLifecycle` is required to spawn processes, and `NetHttp*` is required for HTTP I/O inside those processes. Treat this list as your "permission boundary" and keep it tight.

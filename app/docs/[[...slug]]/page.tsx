@@ -4,6 +4,7 @@ import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import defaultMdxComponents, { createRelativeLink } from "fumadocs-ui/mdx";
 import { docsSource } from "@/lib/docs-source";
+import CodeBlockSingleLine from "@/app/_shared/CodeBlockSingleLine";
 
 interface DocsPageProps {
   params: Promise<{
@@ -55,6 +56,7 @@ export default async function DocsSlugPage({ params }: DocsPageProps) {
         <DocsDescription>{page.data.description}</DocsDescription>
         <DocsBody>
           <Content components={components} />
+          <CodeBlockSingleLine />
         </DocsBody>
       </DocsPage>
     </DocsLayout>

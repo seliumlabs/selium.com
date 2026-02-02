@@ -96,6 +96,11 @@ body {
     color: var(--foreground);
 }
 
+figure.shiki[data-single-line="true"] > .absolute {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 @media (min-width: 768px) {
     html {
         scroll-snap-type: y mandatory;
