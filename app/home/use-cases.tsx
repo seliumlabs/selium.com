@@ -13,6 +13,7 @@ import { createOnigurumaEngine } from "@shikijs/engine-oniguruma";
 import type { ThemedToken } from "shiki";
 import Link from "next/link";
 import { ForwardIcon, FunnelIcon } from "@heroicons/react/24/outline";
+import { Heading } from "../page";
 
 const SHIKI_THEME = "dracula-soft" as const;
 const createHighlighter = createBundledHighlighter({
@@ -334,9 +335,16 @@ export default function UseCases() {
   }, []);
 
   return (
-    <section id="use-cases" className="flex h-screen snap-start">
-      <div className="mx-auto flex h-[calc(100vh-8rem)] w-full max-w-7xl flex-col gap-12 px-6 lg:px-8 mt-24 mb-8">
-        <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 shadow-[0_30px_80px_rgba(15,23,42,0.6)]">
+    <section id="use-cases" className="flex mt-20">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
+        <Heading
+          colour="blue"
+          tag="Use cases"
+          heading="The code speaks for itself"
+          blurb="Here's a taste of what Selium can do. Note that today we only support Rust, but further language support is coming very soon."
+        />
+
+        <div className="flex min-w-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 shadow-[0_30px_80px_rgba(15,23,42,0.6)] md:h-full md:min-h-0">
           <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
             <div className="flex items-center gap-2">
               <span className="size-3 rounded-full bg-rose-400/90" />
@@ -378,7 +386,7 @@ export default function UseCases() {
               );
             })}
           </div>
-          <div className="flex-1 min-h-0 p-6">
+          <div className="min-w-0 p-6 md:flex-1 md:min-h-0">
             {useCases.map((item, index) => (
               <div
                 key={item.name}
@@ -387,7 +395,7 @@ export default function UseCases() {
                 aria-labelledby={`use-case-tab-${index}`}
                 className={
                   index === activeIndex
-                    ? "grid h-full min-h-0 gap-8 lg:grid-cols-[280px_minmax(0,1fr)]"
+                    ? "grid min-w-0 gap-8 md:h-full md:min-h-0 lg:grid-cols-[280px_minmax(0,1fr)]"
                     : "hidden"
                 }
               >
@@ -421,14 +429,14 @@ export default function UseCases() {
                     </Link>
                   </div>
                 </div>
-                <div className="flex h-full min-h-0 flex-col rounded-2xl border border-white/10 bg-slate-950/80 p-4">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-white/10 bg-slate-950/80 p-4 md:h-full md:min-h-0">
                   <div className="mb-4 flex items-center justify-between text-xs text-slate-400">
                     <span className="font-semibold text-slate-200">{item.file}</span>
                     <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400">
                       Rust
                     </span>
                   </div>
-                  <div className="flex-1 min-h-0 space-y-1 overflow-auto pr-2 font-mono text-sm">
+                  <div className="flex-1 min-h-0 min-w-0 md:max-h-[calc(100svh-20rem)] space-y-1 overflow-auto pr-2 font-mono text-sm">
                     {(highlightedCode[index] ?? item.code.split("\n")).map((line, lineIndex) => {
                       if (Array.isArray(line)) {
                         return (

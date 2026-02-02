@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+import { Heading } from "../page";
 
 const steps = [
   {
@@ -436,210 +434,32 @@ const steps = [
   },
 ];
 
-const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={"transition-all " + className}>{children}</div>
-);
-
-function classNames(...values: Array<string | false | null | undefined>) {
-  return values.filter(Boolean).join(" ");
-}
-
 export default function Features() {
-  const [activeStep, setActiveStep] = useState(steps[0]?.id ?? "1");
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const stepsRef = useRef<HTMLDivElement | null>(null);
-  const snapLockRef = useRef(false);
-  const snapTargetRef = useRef<number | null>(null);
-  const snapTimeoutRef = useRef<number | null>(null);
-  const wheelAccumRef = useRef(0);
-  const wheelResetRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const container = stepsRef.current;
-    if (!container) return;
-    const stepElements = Array.from(container.querySelectorAll<HTMLElement>("[data-step]"));
-    if (!stepElements.length) return;
-
-    const setVisibleStep = (stepEl?: Element | null) => {
-      if (!stepEl) return;
-      const step = (stepEl as HTMLElement).dataset.step;
-      if (step) setActiveStep(step);
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleStep(entry.target);
-          }
-        });
-      },
-      {
-        root: container,
-        threshold: 0.6,
-      },
-    );
-
-    stepElements.forEach((step) => observer.observe(step));
-
-    const setInitialStep = () => {
-      const containerRect = container.getBoundingClientRect();
-      const visible = stepElements.find((step) => {
-        const rect = step.getBoundingClientRect();
-        return (
-          rect.top >= containerRect.top &&
-          rect.top < containerRect.top + container.clientHeight * 0.6
-        );
-      });
-      if (visible) setVisibleStep(visible);
-    };
-
-    setInitialStep();
-    window.addEventListener("load", setInitialStep);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("load", setInitialStep);
-    };
-  }, []);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    const container = stepsRef.current;
-    if (!section || !container) return;
-
-    const releaseLock = () => {
-      snapLockRef.current = false;
-      snapTargetRef.current = null;
-      if (snapTimeoutRef.current !== null) {
-        window.clearTimeout(snapTimeoutRef.current);
-        snapTimeoutRef.current = null;
-      }
-    };
-
-    const resetWheelAccum = () => {
-      wheelAccumRef.current = 0;
-      if (wheelResetRef.current !== null) {
-        window.clearTimeout(wheelResetRef.current);
-        wheelResetRef.current = null;
-      }
-    };
-
-    const onScroll = () => {
-      if (!snapLockRef.current || snapTargetRef.current === null) return;
-      if (Math.abs(container.scrollTop - snapTargetRef.current) < 2) {
-        releaseLock();
-      }
-    };
-
-    const onWheel = (event: WheelEvent) => {
-      if (event.defaultPrevented || event.ctrlKey) return;
-      const delta = event.deltaY;
-      if (!delta) return;
-
-      const maxScrollTop = container.scrollHeight - container.clientHeight;
-      const canScrollUp = delta < 0 && container.scrollTop > 0;
-      const canScrollDown = delta > 0 && container.scrollTop < maxScrollTop - 1;
-
-      if (!canScrollUp && !canScrollDown) return;
-
-      const stepHeight = container.clientHeight;
-      if (!stepHeight) return;
-
-      event.preventDefault();
-      if (snapLockRef.current) return;
-
-      wheelAccumRef.current += delta;
-      if (wheelResetRef.current !== null) {
-        window.clearTimeout(wheelResetRef.current);
-      }
-      wheelResetRef.current = window.setTimeout(resetWheelAccum, 180);
-
-      const threshold = 500;
-      if (Math.abs(wheelAccumRef.current) < threshold) return;
-
-      const direction = wheelAccumRef.current > 0 ? 1 : -1;
-      resetWheelAccum();
-
-      const currentIndex = Math.round(container.scrollTop / stepHeight);
-      const nextIndex =
-        direction > 0
-          ? Math.min(steps.length - 1, currentIndex + 1)
-          : Math.max(0, currentIndex - 1);
-      const nextTop = nextIndex * stepHeight;
-      snapLockRef.current = true;
-      snapTargetRef.current = nextTop;
-      container.scrollTo({ top: nextTop, behavior: "smooth" });
-      snapTimeoutRef.current = window.setTimeout(releaseLock, 500);
-    };
-
-    section.addEventListener("wheel", onWheel, { passive: false });
-    container.addEventListener("scroll", onScroll);
-    return () => {
-      section.removeEventListener("wheel", onWheel);
-      container.removeEventListener("scroll", onScroll);
-      if (snapTimeoutRef.current !== null) {
-        window.clearTimeout(snapTimeoutRef.current);
-      }
-      if (wheelResetRef.current !== null) {
-        window.clearTimeout(wheelResetRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="features" className="flex h-screen snap-start overflow-hidden">
-      <div className="mx-auto flex h-full w-full max-w-6xl flex-col pt-28 px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <p className="text-base/7 font-semibold text-amber-300">Designed for developers</p>
-          <h2 className="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl text-white">
-            A composable, clusterable, extensible hypervisor
-          </h2>
-          <p className="mt-6 text-lg/8 text-gray-300 text-balance">
-            Selium is a first-principles rethink of cloud infrastructure, designed explicitly for
-            software developers. Own your whole stack with zero DevOps.
-          </p>
-        </div>
+    <section id="features" className="flex">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
+        <Heading
+          colour="amber"
+          tag="Designed for developers"
+          heading="A composable, clusterable, extensible hypervisor"
+          blurb="Selium is a first-principles rethink of cloud infrastructure, designed explicitly for software developers. Own your whole stack with zero DevOps."
+        />
 
-        <div className="mt-14 grid flex-1 min-h-0 gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <div className="relative flex h-full items-start justify-center">
-            <div className="w-full max-w-2xl">
-              <div className="relative aspect-4/3 w-full">
-                {steps.map((step) => (
-                  <div
-                    key={step.id}
-                    aria-hidden={activeStep !== step.id}
-                    className={classNames(
-                      "absolute inset-0 flex items-center justify-center rounded-3xl border border-white/10",
-                      "bg-linear-to-br from-white/10 via-white/5 to-transparent text-white/80",
-                      "shadow-lg transition-opacity duration-500",
-                      activeStep === step.id ? "opacity-100" : "opacity-0",
-                    )}
-                  >
-                    <div className="h-full w-full p-8">{step.image}</div>
-                  </div>
-                ))}
+        <div className="mt-12 grid gap-10 md:grid-cols-2">
+          {steps.map((step) => (
+            <article key={step.id} className="flex flex-col gap-6">
+              <div className="relative aspect-4/3 w-full max-w-xs text-white/80 sm:max-w-sm md:max-w-md">
+                <div className="h-full w-full">{step.image}</div>
               </div>
-            </div>
-          </div>
-
-          <div ref={stepsRef} className="min-h-0 overflow-y-auto pr-2 snap-y snap-mandatory">
-            {steps.map((step, index) => (
-              <article
-                key={step.id}
-                data-step={step.id}
-                className="step flex h-full snap-start items-start"
-              >
-                <Card className="w-full transition-colors">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/70">
-                    {step.tag}
-                  </p>
-                  <h3 className="mt-3 text-xl font-semibold text-white">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-gray-300">{step.body}</p>
-                </Card>
-              </article>
-            ))}
-          </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/70">
+                  {step.tag}
+                </p>
+                <h3 className="mt-3 text-xl font-semibold text-white">{step.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-gray-300">{step.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

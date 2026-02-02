@@ -5,6 +5,7 @@ import { CheckIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import { createBundledHighlighter } from "shiki/core";
 import { createOnigurumaEngine } from "@shikijs/engine-oniguruma";
 import type { ThemedToken } from "shiki";
+import { Heading } from "../page";
 
 const SHIKI_THEME = "dracula-soft" as const;
 const createHighlighter = createBundledHighlighter({
@@ -90,24 +91,21 @@ export default function GetStarted() {
   }, [copiedIndex]);
 
   return (
-    <section id="get-started" className="flex h-screen snap-start pt-20">
-      <div className="my-auto mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <p className="text-base/7 font-semibold text-emerald-300">Get started</p>
-          <h2 className="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl text-white">
-            Run Selium locally in minutes
-          </h2>
-          <p className="mt-6 text-lg/8 text-gray-300">
-            These commands get you a local runtime, and CLI, so you can start building in minutes.
-          </p>
-        </div>
+    <section id="get-started" className="flex my-20">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6">
+        <Heading
+          colour="teal"
+          tag="Get started"
+          heading="Run Selium locally in minutes"
+          blurb="These commands get you a local runtime, and CLI, so you can start building in minutes."
+        />
 
-        <div className="mx-auto mt-14 grid max-w-2xl gap-8 lg:max-w-none lg:grid-cols-[1fr_1.2fr]">
-          <div className="rounded-2xl border border-white/10 bg-gray-900/70 p-6">
+        <div className="mx-auto mt-14 max-w-2xl lg:max-w-4xl">
+          <div className="min-w-0 rounded-2xl border border-white/10 bg-gray-900/70 p-6">
             <div className="flex items-center justify-between text-xs text-gray-400">
               <span>Quickstart (local runtime)</span>
             </div>
-            <div className="w-6xl mt-4 mx-auto overflow-x-auto space-y-3">
+            <div className="mx-auto mt-4 w-full space-y-3">
               {sections.map((section, sectionIndex) => {
                 const highlighted = highlightedSections[sectionIndex];
                 const isOpen = sectionIndex === openIndex;
@@ -136,9 +134,9 @@ export default function GetStarted() {
                           );
                         }
                       }}
-                      className="flex cursor-pointer items-center justify-between gap-4 px-4 py-3 text-left text-sm font-semibold text-emerald-100"
+                      className="flex min-w-0 cursor-pointer items-center justify-between gap-4 px-4 py-3 text-left text-sm font-semibold text-emerald-100"
                     >
-                      <span className="flex-1">{section.title}</span>
+                      <span className="min-w-0 flex-1">{section.title}</span>
                       <button
                         type="button"
                         onClick={async (event) => {

@@ -91,17 +91,22 @@
     }
 }
 
-html {
-    scroll-snap-type: y mandatory;
-}
-
-main > section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-}
-
 body {
     background: var(--background);
     color: var(--foreground);
-    scroll-snap-type: y mandatory;
+}
+
+@media (min-width: 768px) {
+    html {
+        scroll-snap-type: y mandatory;
+    }
+
+    main > section {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+
+    body {
+        scroll-snap-type: y mandatory;
+    }
 }
