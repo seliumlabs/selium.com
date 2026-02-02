@@ -100,7 +100,7 @@ export default function GetStarted() {
           blurb="These commands get you a local runtime, and CLI, so you can start building in minutes."
         />
 
-        <div className="mx-auto mt-14 max-w-2xl lg:max-w-4xl">
+        <div className="mx-auto mt-14 w-full min-w-0 max-w-2xl lg:max-w-4xl">
           <div className="min-w-0 rounded-2xl border border-white/10 bg-gray-900/70 p-6">
             <div className="flex items-center justify-between text-xs text-gray-400">
               <span>Quickstart (local runtime)</span>
@@ -153,7 +153,7 @@ export default function GetStarted() {
                             ? "Copied commands to clipboard"
                             : "Copy commands to clipboard"
                         }
-                        className="group flex cursor-pointer items-center justify-center rounded-full p-2 text-emerald-200 transition hover:text-emerald-100 active:text-emerald-50"
+                        className="group hidden cursor-pointer items-center justify-center rounded-full p-2 text-emerald-200 transition hover:text-emerald-100 active:text-emerald-50 sm:inline-flex"
                       >
                         <span className="relative size-6">
                           <ClipboardIcon

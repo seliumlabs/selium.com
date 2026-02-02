@@ -8,14 +8,14 @@ export default function Hero() {
         <div className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight flex text-white">
           Selium<span className="animate-pulse-logo-text">.</span>
         </div>
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight flex items-center justify-center">
-          <span className="absolute mx-auto py-4 w-fit box-content select-none text-white/70">
+        <h1 className="text-[clamp(1.45rem,7vw,4.5rem)] sm:text-6xl md:text-7xl font-semibold tracking-tight flex items-center justify-center">
+          <span className="absolute mx-auto py-4 w-fit box-content select-none whitespace-nowrap text-white/70">
             the_cloud{" "}
             <span className="bg-linear-to-r blur-xl from-blue-500 via-teal-500 to-pink-500 bg-clip-text text-transparent">
               &#123; reimagined &#125;
             </span>
           </span>
-          <span className="relative top-0 py-4 justify-center text-transparent select-auto">
+          <span className="relative top-0 py-4 justify-center whitespace-nowrap text-transparent select-auto">
             the_cloud{" "}
             <span className="bg-linear-to-r from-blue-500 via-teal-500 to-pink-500 bg-clip-text">
               &#123; reimagined &#125;
