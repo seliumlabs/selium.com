@@ -3,21 +3,30 @@ title: "Atlas module"
 description: "Discover applications and channels."
 ---
 
-Atlas is Selium's directory service. It lets services find each other by stable names (`sel://` URIs) instead of passing around hardcoded handles.
+| Crate | Description | Docs |
+| ----- | ----------- | ---- |
+| selium-atlas | Client library that applications implement | [docs.rs](https://docs.rs/selium-atlas/latest/selium_atlas/) |
+| selium-atlas-protocol | Internal library that defines the client-server protocol | [docs.rs](https://docs.rs/selium-atlas-protocol/latest/selium_atlas_protocol/) |
+| selium-atlas-server | WASM module that manages the URI database | N/A |
 
-A typical URI looks like:
+Atlas is Selium's directory service. It lets application processes find external resources using stable names (`sel://` URIs) instead of passing around hardcoded handles.
+
+A typical application URI looks like:
 
 ```
-sel://tenant/app.app/service:ep
+sel://tenant/app.app/process:entrypoint
 ```
 
-Atlas is registered as a singleton (`selium.atlas.singleton`), so guests resolve it via `Context::singleton::<Atlas>()` or `Context::require::<Atlas>()`.
+**Note that this format is still being worked out, so some variance is expected.**
+
+## Usage
+
+The Atlas server registers itself as a singleton (`selium.atlas.singleton`). Processes can easily obtain a handle to the Atlas via the [global `Context`](applications#singletons).
 
 To start the server module:
 
 ```bash
-selium-runtime --work-dir selium-work \
-  --module 'path=modules/selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry'
+selium-runtime --module 'path=modules/selium_atlas_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,SingletonRegistry'
 ```
 
 ## Basic operations
@@ -29,11 +38,11 @@ At its core, Atlas is a small key/value directory with a few convenience queries
 - `remove(uri)`
 - `lookup(pattern)` -> `Vec<AtlasId>`
 
-`lookup` uses URI containment rules, so a broad pattern like `sel://tenant/app` can match multiple services underneath it.
+`lookup` uses prefix matching, so a broad pattern like `sel://tenant/app` can match `sel://tenant/app` as well as `sel://tenant/app/ep1/prod/chan` etc.
 
 ## `switchboard` feature
 
-The `selium-atlas` crate ships with a `switchboard` feature (enabled by default) that adds helpers to wire matches into the switchboard:
+The Atlas client ships with the `switchboard` feature (enabled by default) that adds helpers to wire matches into the switchboard:
 
 - `PublisherAtlasExt::matching`
 - `SubscriberAtlasExt::connect`
@@ -41,4 +50,6 @@ The `selium-atlas` crate ships with a `switchboard` feature (enabled by default)
 
 It lets you discover endpoints by URI and immediately connect them without manual channel plumbing.
 
-Atlas also provides a log URI registrar (`install_log_uri_registrar`) used by the userland logging bridge when a log URI is supplied.
+## Log Registrar
+
+Selium provides a log channel registrar hook, which the Atlas uses to facilitate registering a process's log channel via [`--log-uri`](applications#logging). If Atlas server is not loaded, this is simply a _noop_.

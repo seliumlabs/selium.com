@@ -7,8 +7,8 @@
     "channels",
     "networking",
     "runtime",
+    "remote-client",
     "switchboard",
-    "atlas",
-    "remote-client"
+    "atlas"
   ]
 }

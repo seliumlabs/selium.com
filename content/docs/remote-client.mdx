@@ -1,18 +1,24 @@
 ---
 title: "Remote Client module"
-description: "Facilitates orchestration and I/O from outside of the Selium network."
+description: "Facilitating orchestration of Selium runtimes and processes."
 ---
 
-The remote client module is Selium's "outside-in" control plane. It exposes a QUIC endpoint that lets you start/stop processes and interact with channels from outside the runtime. The `selium` CLI is just a client for this module.
+| Crate | Description | Docs |
+| ----- | ----------- | ---- |
+| selium-remote-cli | Developer CLI for runtime orchestration | `selium --help` |
+| selium-remote-client | Client library that applications implement | [docs.rs](https://docs.rs/selium-remote-client/latest/selium_remote_client/) |
+| selium-remote-client-protocol | Internal library that defines the client-server protocol | [docs.rs](https://docs.rs/selium-remote-client-protocol/latest/selium_remote_client_protocol/) |
+| selium-remote-client-server | WASM module that listens for requests on a QUIC endpoint | N/A |
 
-To start the server module:
+Remote Client is Selium's external control plane. The server component exposes a TLS-secured QUIC endpoint that lets you start and stop processes, and interact with channels from outside the runtime. It also provides a client library and CLI, which we've already referred to several times in these docs.
+
+To start the server module, use the below command. Pay special attention to the `args=` section, which tells the Remote Client server what address and port to bind to.
 
 ```bash
-selium-runtime --work-dir selium-work \
-  --module 'path=modules/selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000'
+selium-runtime --module 'path=modules/selium_remote_client_server.wasm;capabilities=ChannelLifecycle,ChannelReader,ChannelWriter,ProcessLifecycle,NetQuicBind,NetQuicAccept,NetQuicRead,NetQuicWrite;args=utf8:localhost,u16:7000'
 ```
 
-The `args` are the bind domain and port for the control plane (where the CLI will connect).
+**Security Notice: the Remote Client will soon employ mTLS to authenticate clients, however today it DOES NOT. It is highly recommended to only expose the Remote Client to secure local networks (or just localhost).**
 
 ## CLI basics
 
@@ -20,13 +26,17 @@ The CLI binary is named `selium`:
 
 ```bash
 # Start a process
-selium --cert-dir selium-work/certs \
-  start hello.wasm start \
-  --capabilities ChannelLifecycle,ChannelReader,ChannelWriter \
-  --attach
+selium start hello.wasm some_entrypoint --capabilities ChannelLifecycle,ChannelReader,ChannelWriter
+
+# Start a process and stream its logs to stdout
+# Note that terminating this command *does not* stop the process
+selium start hello.wasm ... --attach
 
 # Stop a process
-selium --cert-dir selium-work/certs stop <id>
+selium stop <id>
+
+# Specify a non-default certs path (defaults to "./certs")
+selium --cert-dir selium-work/certs <command>
 ```
 
 Environment variables:
@@ -35,8 +45,6 @@ Environment variables:
 - `SELIUM_CERT_DIR` points to the TLS cert directory
 - `SELIUM_LOG_FORMAT` switches between text and JSON
 
-Note: `selium ps` is currently stubbed.
-
 ## Capabilities
 
-The remote client will only request the capabilities you pass in. For example, `ProcessLifecycle` is required to spawn processes, and `NetHttp*` is required for HTTP I/O inside those processes. Treat this list as your "permission boundary" and keep it tight.
+The remote client will only request the capabilities you pass in. For example, `ProcessLifecycle` is required to spawn processes, and `NetHttp*` is required for HTTP I/O inside those processes. Treat this list as your "permission boundary". We strongly recommend you only grant the specific permissions your process needs.
