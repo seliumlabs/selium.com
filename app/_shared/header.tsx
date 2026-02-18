@@ -3,34 +3,28 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import styles from "./header.module.css";
 
-interface Nav {
+export interface HeaderNav {
   name: string;
   href: string;
 }
 
-const navigation: Nav[] = [
-  { name: "Features", href: "/#features" },
-  { name: "Use cases", href: "/#use-cases" },
-  { name: "Security", href: "/#security" },
-  { name: "Get started", href: "/#get-started" },
-];
+const utilityLinkClass =
+  "text-sm/6 font-medium text-teal-300 hover:text-teal-200 visited:text-teal-300";
 
-export default function Header() {
+export default function Header({ nav = [] }: { nav?: HeaderNav[] }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed w-full z-50 bg-transparent backdrop-blur-xl border-b border-white/10">
-      <nav
-        aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8"
-      >
+    <header className={`${styles.header} bg-transparent border-b border-white/10 backdrop-blur-xl`}>
+      <nav aria-label="Global" className={styles.nav}>
         <a href="/#top" className="-m-1.5 p-1.5">
           <div className="text-3xl font-semibold tracking-tight flex text-white">
             Selium<span className="animate-pulse-logo-text">.</span>
           </div>
         </a>
-        <div className="flex lg:hidden">
+        <div className={styles.mobileMenuTrigger}>
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
@@ -40,8 +34,8 @@ export default function Header() {
             <Bars3Icon aria-hidden="true" className="size-6" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:items-center lg:gap-x-8">
-          {navigation.map((item) => (
+        <div className={styles.desktopNav}>
+          {nav.map((item) => (
             <a
               key={item.name}
               href={item.href}
@@ -50,23 +44,22 @@ export default function Header() {
               {item.name}
             </a>
           ))}
-          <div>
-            <a
-              href="/docs"
-              className="rounded-md rounded-tr-none rounded-br-none border border-white border-r-0 bg-white px-3 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-200 hover:border-gray-200"
-            >
-              Docs
-            </a>
-            <a
-              href="https://github.com/seliumlabs/selium"
-              className="rounded-md rounded-tl-none rounded-bl-none border border-white/20 border-l-0 px-3 py-1.5 text-sm font-semibold text-white hover:border-white/60"
-            >
-              GitHub
-            </a>
-          </div>
+          {nav.length > 0 ? <div className="h-4 w-px bg-white/20" aria-hidden="true"></div> : null}
+          <a href="/" className={utilityLinkClass}>
+            Home
+          </a>
+          <a href="/news" className={utilityLinkClass}>
+            News
+          </a>
+          <a href="/docs" className={utilityLinkClass}>
+            Docs
+          </a>
+          <a href="https://github.com/seliumlabs/selium" className={utilityLinkClass}>
+            GitHub
+          </a>
         </div>
       </nav>
-      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className={styles.mobileDialog}>
         <div className="fixed inset-0 z-50" />
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-950 p-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
           <div className="flex items-center justify-between">
@@ -86,7 +79,7 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-white/10">
               <div className="space-y-2 py-6">
-                {navigation.map((item) => (
+                {nav.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
@@ -98,14 +91,26 @@ export default function Header() {
               </div>
               <div className="space-y-2 py-6">
                 <a
+                  href="/"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-teal-300 hover:bg-white/5 hover:text-teal-200 visited:text-teal-300"
+                >
+                  Home
+                </a>
+                <a
+                  href="/news"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-teal-300 hover:bg-white/5 hover:text-teal-200 visited:text-teal-300"
+                >
+                  News
+                </a>
+                <a
                   href="/docs"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-teal-300 hover:bg-white/5 hover:text-teal-200 visited:text-teal-300"
                 >
                   Docs
                 </a>
                 <a
                   href="https://github.com/seliumlabs/selium"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-teal-300 hover:bg-white/5 hover:text-teal-200 visited:text-teal-300"
                 >
                   GitHub
                 </a>

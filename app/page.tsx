@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "./_shared/header";
+import Header, { HeaderNav } from "./_shared/header";
 import Footer from "./_shared/footer";
 import Hero from "./home/hero";
 import Features from "./home/features";
@@ -29,6 +29,13 @@ type HeadingProps = {
   blurb: string;
 };
 
+const navigation: HeaderNav[] = [
+  { name: "Features", href: "/#features" },
+  { name: "Use cases", href: "/#use-cases" },
+  { name: "Security", href: "/#security" },
+  { name: "Get started", href: "/#get-started" },
+];
+
 export function Heading({ colour, tag, heading, blurb }: HeadingProps) {
   const colourClass = HEADING_COLOURS[colour];
 
@@ -54,7 +61,7 @@ export default function Home() {
         <div className="absolute bottom-0 right-0 h-90 w-[min(22.5rem,100vw)] translate-x-0 sm:translate-x-1/3 rounded-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.2),transparent_70%)] blur-2xl"></div>
       </div>
       {/*<AnimatedLogo />*/}
-      <Header />
+      <Header nav={navigation} />
       <main className="relative z-10">
         <Hero />
         <Features />

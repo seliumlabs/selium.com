@@ -13,6 +13,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
         <div className="pointer-events-none fixed bottom-0 right-0 h-90 w-90 translate-x-1/3 rounded-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.2),transparent_70%)] blur-2xl"></div>
         <Header />
         <main>{children}</main>
+        <Footer />
       </div>
     </DocsProvider>
   );

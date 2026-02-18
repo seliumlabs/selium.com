@@ -1,0 +1,101 @@
+---
+title: "Release v1.0.0-alpha"
+description: "This release marks the milestone pivot from a streaming data system to a full WebAssembly runtime."
+date: "2026-02-18"
+author: "Pete Hayes"
+---
+
+Today I'm thrilled to announce **Selium v1.0.0-alpha**: a major milestone that advances Selium from a simple streaming data platform into a full WebAssembly runtime.
+
+This transition has always been our goal for the project, though I must admit that the journey has taken a lot longer than I would have expected. In the beginning, we deliberately narrowed the project scope to _"just"_ delivering composable data streaming. Most runtimes obsess over code execution and treat data transit as an afterthought, but for distributed systems it's the main event.
+
+After learning some important, and often painful lessons, we moved on to the _"easy"_ runtime bit... And only 18 months later we had an alpha!&nbsp;😅
+
+## What changed?
+
+Kinda everything... The project has been rewritten from the ground up, taking all the learnings from our streaming platform and applying them to Selium's network layer. We've also grown a new repo: [seliumlabs/selium-modules](https://github.com/seliumlabs/selium-modules).
+
+Here's some highlights:
+
+- WebAssembly runtime, powered by `wasmtime`.
+- Composable stream-based I/O, powered by our own tightly integrated library.
+- Strong typing everywhere, even across process boundaries, using `flatbuffers`.
+- An ergonomic and simple to use guest library (`selium-userland`).
+- Trivial discovery and routing modules for connecting processes.
+- Out-of-the-box support for messaging patterns like pub/sub, RPC, and fanout.
+- External network integration that works just like our streaming I/O.
+- Non-blocking guest `async`.
+- Native logging with `tracing` that is observable and actionable via streaming I/O.
+- Capability-based security that controls every aspect of the guest's environment.
+
+## Sample `echo` app
+
+Here's a quick looksie (taken straight from [examples/echo/](https://github.com/seliumlabs/selium/tree/main/examples/echo/)):
+
+```rust
+/// Request payload delivered to the pong server.
+#[schema(
+    path = "schemas/echo.fbs",
+    ty = "examples.echo.EchoMsg",
+    binding = "crate::fbs::examples::echo::EchoMsg"
+)]
+pub struct EchoMsg {
+    /// Your message to echo
+    pub msg: String,
+}
+
+#[entrypoint]
+async fn echo_client(ctx: Context) -> Result<()> {
+    let switchboard = ctx.require::<Switchboard>().await;
+    let atlas = ctx.require::<Atlas>().await;
+
+    let mut client = Client::create(&switchboard).await?;
+    SubscriberAtlasExt::connect(&client, &atlas, &switchboard, "sel://example.org/echo/prod").await?;
+
+    let response: EchoMsg = client
+        .request(EchoMsg::new("Hello, world!".to_string()))
+        .await
+        .context("send request")?;
+    info!(reply = response.msg, "received echo");
+
+    Ok(())
+}
+
+#[entrypoint]
+async fn echo_server(ctx: Context) -> Result<()> {
+    let switchboard = ctx.require::<Switchboard>().await;
+    let atlas = ctx.require::<Atlas>().await;
+
+    let server: Server<EchoMsg, EchoMsg> = Server::create(&switchboard).await?;
+    atlas
+        .insert(
+            Uri::parse("sel://example.org/echo/prod").unwrap(),
+            server.endpoint_id() as u64,
+        )
+        .await?;
+    server
+        .try_for_each(async |req| {
+            let (msg, responder) = req.into_parts();
+            info!(msg = msg.msg, "received request");
+
+            responder.send(msg).await
+        })
+        .await?;
+
+    Ok(())
+}
+```
+
+## What comes next?
+
+As we progress towards **beta**, our focus is on:
+
+- Stabilising runtime semantics, modules, APIs and ABI.
+- New features like WASM module management, automatic schema distribution, AOT type checking, etc.
+- Quality-of-life patching throughout.
+- Continuing docs and developer tooling improvements.
+- Expanding production-oriented examples and deployment guidance.
+
+Selium v1.0.0-alpha is a significant milestone, but it's only the beginning. Thank you so much for your interest and support. We need you on this journey with us!
+
+If you're interested in trialling Selium in your org, we'd love to help! Reach out to [hello@selium.com](mailto:hello@selium.com) and we'll get straight back to you.

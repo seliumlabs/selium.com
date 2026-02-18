@@ -1,5 +1,6 @@
 import { defineConfig, defineDocs } from "fumadocs-mdx/config";
 import rehypePrettyCode from "rehype-pretty-code";
+import { z } from "zod";
 
 const prettyCodeOptions = {
   theme: {
@@ -24,6 +25,18 @@ const prettyCodeOptions = {
 
 export const docs = defineDocs({
   dir: "content/docs",
+});
+
+export const news = defineDocs({
+  dir: "content/news",
+  docs: {
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.string(),
+      author: z.string(),
+    }),
+  },
 });
 
 export default defineConfig({
