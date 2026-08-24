@@ -34,7 +34,9 @@ function sketch(p5: P5CanvasInstance) {
   const particles: Particle[] = [];
   let counter = 0;
 
-  p5.setup = () => setup(p5, settings, particles, dimensions);
+  p5.setup = () => {
+    setup(p5, settings, particles, dimensions);
+  };
   p5.draw = () => (counter = draw(p5, settings, points, particles, dimensions, counter));
 }
 
